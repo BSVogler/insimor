@@ -11,6 +11,9 @@
 		2C1F865225A9E767001CF6E9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F861D25A9DC97001CF6E9 /* main.cpp */; };
 		2CB2AE3825A64AA8009AFBCB /* libpython3.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CB2AE3725A64AA8009AFBCB /* libpython3.9.dylib */; };
 		2CB2AE3B25A65E36009AFBCB /* libpython3.9.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2CB2AE3725A64AA8009AFBCB /* libpython3.9.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		2CB87AA125B34B9700E69DF5 /* numericBackend.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2CB87A9F25B34B9700E69DF5 /* numericBackend.hpp */; };
+		2CB87AA225B34B9700E69DF5 /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */; };
+		2CB87AA325B34B9700E69DF5 /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,8 +46,9 @@
 		2C1F862625A9E560001CF6E9 /* insimou.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = insimou.entitlements; path = insimou_ext/insimou.entitlements; sourceTree = SOURCE_ROOT; };
 		2C1F864425A9E6C7001CF6E9 /* libinsimou.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libinsimou.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C70A67E2598AA7500E72C20 /* insimou_ext */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = insimou_ext; sourceTree = BUILT_PRODUCTS_DIR; };
-		2C70A68F2598B41B00E72C20 /* libomp.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libomp.dylib; path = ../../../../usr/local/Cellar/libomp/11.0.0/lib/libomp.dylib; sourceTree = "<group>"; };
 		2CB2AE3725A64AA8009AFBCB /* libpython3.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython3.9.dylib; path = "../../../../usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib"; sourceTree = "<group>"; };
+		2CB87A9F25B34B9700E69DF5 /* numericBackend.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = numericBackend.hpp; path = insimou_ext/numericBackend.hpp; sourceTree = SOURCE_ROOT; };
+		2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = numericBackend.cpp; path = insimou_ext/numericBackend.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,8 @@
 		2C70A6802598AA7500E72C20 /* insimou */ = {
 			isa = PBXGroup;
 			children = (
+				2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */,
+				2CB87A9F25B34B9700E69DF5 /* numericBackend.hpp */,
 				2C1F862625A9E560001CF6E9 /* insimou.entitlements */,
 				2C1F861D25A9DC97001CF6E9 /* main.cpp */,
 				2C1F861E25A9DC97001CF6E9 /* setupextension.py */,
@@ -99,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				2CB2AE3725A64AA8009AFBCB /* libpython3.9.dylib */,
-				2C70A68F2598B41B00E72C20 /* libomp.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -111,6 +116,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CB87AA125B34B9700E69DF5 /* numericBackend.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CB87AA325B34B9700E69DF5 /* numericBackend.cpp in Sources */,
 				2C1F865225A9E767001CF6E9 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CB87AA225B34B9700E69DF5 /* numericBackend.cpp in Sources */,
 				2C1F862125A9DC97001CF6E9 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,7 +379,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/libomp/11.0.0/lib,
 					"/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
 				);
 				OTHER_CFLAGS = (
@@ -399,7 +406,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/libomp/11.0.0/lib,
 					"/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
 				);
 				OTHER_CFLAGS = (

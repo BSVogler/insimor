@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>insimou 1.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>insimou.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -22,6 +27,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>2C1F864325A9E6C7001CF6E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2C70A67D2598AA7500E72C20</key>
 		<dict>
 			<key>primary</key>
