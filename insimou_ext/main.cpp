@@ -13,6 +13,9 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <array>
+#include "numericBackend.hpp"
+
 
 
 #ifdef INSIMOU_PYEXT
@@ -42,10 +45,11 @@ using namespace std;
 #define NUM_THREADS 4
 std::thread* threads[NUM_THREADS];
 bool running = false;
+NumericBackend* backend;
 bool shared_exitflag = false;
-float neuroninput[5] = {0,0,0,0,0};
-float neuronoutput[5] = {0,0,0,0,0};
-float weight[5] ={1,2,3,4,5};
+std::array<float, INPUTDIM> neuroninput = {0,0,0,0,0};
+float neuronoutput[OUTPUTDIM] = {0};
+float weight[INPUTDIM] ={1,2,3,4,5};
 float analogsignal = {0};
 std::chrono::high_resolution_clock::time_point begin_time;
 std::mutex mtx;
@@ -66,9 +70,11 @@ void *PrintHello(void *threadarg) {
 }
 
 void *in_loop(){
+    
     int i = 0;
     int totalCycles = 0;
     while(!shared_exitflag){
+        backend->setInput(&neuroninput);
         i = (i+1) % 5;
         neuroninput[i] += 1;
         totalCycles++;
@@ -85,10 +91,7 @@ void *simulate_loop(){
     int i = 0;
     int totalCycles = 0;
     while(!shared_exitflag){
-        totalCycles++;
-        i = totalCycles % 5;
-        if (i%123==0){neuroninput[i] /= weight[i];}
-        neuronoutput[i] = neuroninput[i]*2;
+        backend->coreloop();
     }
     std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     mtx.lock();
@@ -122,6 +125,7 @@ void *feedback_loop(){
     int i = 0;
     int totalCycles = 0;
     while(!shared_exitflag){
+        backend->setFeedback(12);
         totalCycles++;
         i = totalCycles % 5;
         weight[i] = analogsignal;
@@ -136,6 +140,7 @@ void *feedback_loop(){
 
 void mainthreadf(){
     cout <<"Starting engine."<< endl;
+    backend = new NumericBackend();
     struct thread_data td[NUM_THREADS];
     //int rc;
     int i;
@@ -169,21 +174,19 @@ void mainthreadf(){
 
 std::thread* mainthread = nullptr;
 void start_async(){
-    //async
+    //async, will return instantly and spawn threads in background
     mainthread = new std::thread(mainthreadf);
 }
 
 void start_sync(){
-    //synchronous
+    //synchronous, will spawn threads and after spawning return
     mainthreadf();
-    cout <<"Exit main thread."<< endl;
 }
 
 void stop(){
     if (running){
         cout <<"Will stop threads" << endl;
         shared_exitflag=true;//stops the threads
-        cout <<"calling stop" << endl;
         for( int i = 0; i < NUM_THREADS; i++ ) {
             threads[i]->join();
         }
@@ -199,7 +202,7 @@ void stop(){
         if (mainthread != nullptr){
             mainthread->join();
         }
-        pthread_exit(NULL);
+        cout << "Done";
     } else {
         cout <<"Engine has not yet started." << endl;
     }
@@ -217,8 +220,17 @@ void setinput(){
     }
 }
 
+float* getAction(){
+    neuronoutput[0]+=1;
+    return neuronoutput;
+}
+
 int main ( int argc, char *argv[] ) {
     start_sync();
+    std::this_thread::sleep_for (std::chrono::milliseconds(500));
+    setinput();
+    std::this_thread::sleep_for (std::chrono::milliseconds(5));
+    stop();
 }
 
 }
