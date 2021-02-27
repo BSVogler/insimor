@@ -17,7 +17,7 @@
 #include "numericBackend.hpp"
 
 
-
+//this section is only for the extension
 #ifdef INSIMOU_PYEXT
 static PyObject *test(PyObject *self, PyObject *args){
     return (PyObject*)(1);
@@ -38,7 +38,7 @@ PyMODINIT_FUNC PyInit_insimou(void) {
 }
 #endif
 
-
+//below c python
 extern "C" {
 using namespace std;
 
@@ -47,7 +47,8 @@ std::thread* threads[NUM_THREADS];
 bool running = false;
 NumericBackend* backend;
 bool shared_exitflag = false;
-std::array<float, INPUTDIM> neuroninput = {0,0,0,0,0};
+int observationlength = 5;
+float observations[] = {};//may switch to std::array and store dimension in another field
 float neuronoutput[OUTPUTDIM] = {0};
 float weight[INPUTDIM] ={1,2,3,4,5};
 float analogsignal = {0};
@@ -70,14 +71,11 @@ void *PrintHello(void *threadarg) {
 }
 
 void *in_loop(){
-    
-    int i = 0;
+    //this continuous loop select the neurons activation level based on the analog input signal
     int totalCycles = 0;
     while(!shared_exitflag){
-        backend->setInput(&neuroninput);
-        i = (i+1) % 5;
-        neuroninput[i] += 1;
-        totalCycles++;
+        backend->setInput(observations, observationlength);
+        ++totalCycles;
     }
     mtx.lock();
     cout << "inout cycle num: "<< totalCycles<<endl;
@@ -88,9 +86,9 @@ void *in_loop(){
 }
 
 void *simulate_loop(){
-    int i = 0;
     int totalCycles = 0;
     while(!shared_exitflag){
+        ++totalCycles;
         backend->coreloop();
     }
     std::this_thread::sleep_for (std::chrono::milliseconds(1000));
@@ -190,11 +188,12 @@ void stop(){
         for( int i = 0; i < NUM_THREADS; i++ ) {
             threads[i]->join();
         }
-        
-        for (int i=0; i < 5; i++) {
-            cout << neuroninput[i] << "  ";
+        cout << "Observations:"<<endl;
+        for (int i=0; i < observationlength; i++) {
+            cout << observations[i] << "  ";
         }
         cout <<endl;
+        cout << "Outputs:"<<endl;
         for (int i=0; i < 5; i++) {
             cout << neuronoutput[i] << "  ";
         }
@@ -209,13 +208,18 @@ void stop(){
 }
 
 
-void setinput(){
+void setinput(float observation[], int lenobs){
     if (running){
         cout <<"Set input" << endl;
-        for (int i=0; i < 5; i++) {
-            neuronoutput[i] =1;
+        //int lenobs = sizeof(observation)/sizeof(observation[0]);
+        observationlength = lenobs;
+        for (int i=0;i<lenobs;++i){
+            observations[i] = observation[i];
+            cout <<observation[i] << ",";
         }
+        cout << endl;
     } else {
+        //we could in theory set the input before starting, this is a mere warning
         cout <<"Engine has not yet started." << endl;
     }
 }
@@ -228,7 +232,8 @@ float* getAction(){
 int main ( int argc, char *argv[] ) {
     start_sync();
     std::this_thread::sleep_for (std::chrono::milliseconds(500));
-    setinput();
+    float obs[2] = {2,1};
+    setinput(obs,2);
     std::this_thread::sleep_for (std::chrono::milliseconds(5));
     stop();
 }

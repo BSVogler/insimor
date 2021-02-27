@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <array>
+#include <vector>
 
 class NumericBackend {
 private:
@@ -24,7 +25,7 @@ private:
     
 public:
     NumericBackend();
-    void setInput(std::array<float, INPUTDIM>* observation);
+    void setInput(float observation[], int length);
     void coreloop();
     void setFeedback(float errsig);
 };

@@ -15,9 +15,9 @@ NumericBackend::NumericBackend(){
 }
 
 
-void NumericBackend::setInput(std::array<float, INPUTDIM>* observation){
-    for (int i = 0; i < observation->size(); i++){
-        input[i] = observation->at(i);
+void NumericBackend::setInput(float observation[], int length){
+    for (int i = 0; i < length; i++){
+        input[i] = observation[i];
         if (observation[i] > observation[lastmaxindex]) {
             lastmaxindex = i;
         }
