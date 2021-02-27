@@ -42,13 +42,13 @@ PyMODINIT_FUNC PyInit_insimou(void) {
 extern "C" {
 using namespace std;
 
-#define NUM_THREADS 4
+#define NUM_THREADS 3
 std::thread* threads[NUM_THREADS];
 bool running = false;
 NumericBackend* backend;
 bool shared_exitflag = false;
 int observationlength = 5;
-float observations[] = {};//may switch to std::array and store dimension in another field
+float observations[] = {};
 float neuronoutput[OUTPUTDIM] = {0};
 float weight[INPUTDIM] ={1,2,3,4,5};
 float analogsignal = {0};
@@ -70,20 +70,6 @@ void *PrintHello(void *threadarg) {
     pthread_exit(NULL);
 }
 
-void *in_loop(){
-    //this continuous loop select the neurons activation level based on the analog input signal
-    int totalCycles = 0;
-    while(!shared_exitflag){
-        backend->setInput(observations, observationlength);
-        ++totalCycles;
-    }
-    mtx.lock();
-    cout << "inout cycle num: "<< totalCycles<<endl;
-    float duration = std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - begin_time ).count();
-    std::cout << totalCycles<<"cycles /"<<duration<<"us ="<< totalCycles/duration<<"cycles/us"<<endl;
-    mtx.unlock();
-    pthread_exit(NULL);
-}
 
 void *simulate_loop(){
     int totalCycles = 0;
@@ -144,24 +130,19 @@ void mainthreadf(){
     int i;
     
     begin_time = std::chrono::high_resolution_clock::now();
-    for( i = 0; i < NUM_THREADS; i++ ) {
+    for( i = 0; i < NUM_THREADS; ++i ) {
         cout <<"main() : creating thread, " << i << endl;
         td[i].thread_id = i+1;
         td[i].message = "This is message";
         if (i==0) {
-            threads[i] = new std::thread(in_loop);
-        } else if(i==1){
             threads[i] = new std::thread(simulate_loop);
-        } else if(i==2){
+        } else if(i==1){
             threads[i] = new std::thread(out_loop);
-        } else {
+        } else if(i==2){
             threads[i] = new std::thread(feedback_loop);//, PrintHello, std::ref(td[i])
+        } else {
+            
         }
-        
-//        if (rc) {
-//            cout << "Error:unable to create thread," << rc << endl;
-//            exit(-1);
-//        }
     }
     running = true;
     cout <<"Started engine."<< endl;
@@ -181,23 +162,27 @@ void start_sync(){
     mainthreadf();
 }
 
+void printstats(){
+    cout << "Observations:"<<endl;
+    for (int i=0; i < observationlength; ++i) {
+        cout << observations[i] << "  ";
+    }
+    cout <<endl;
+    cout << "Outputs:"<<endl;
+    for (int i=0; i < 5; ++i) {
+        cout << neuronoutput[i] << "  ";
+    }
+    cout <<endl;
+}
+
 void stop(){
     if (running){
         cout <<"Will stop threads" << endl;
         shared_exitflag=true;//stops the threads
-        for( int i = 0; i < NUM_THREADS; i++ ) {
+        for( int i = 0; i < NUM_THREADS; ++i ) {
             threads[i]->join();
         }
-        cout << "Observations:"<<endl;
-        for (int i=0; i < observationlength; i++) {
-            cout << observations[i] << "  ";
-        }
-        cout <<endl;
-        cout << "Outputs:"<<endl;
-        for (int i=0; i < 5; i++) {
-            cout << neuronoutput[i] << "  ";
-        }
-        cout <<endl;
+        printstats();
         if (mainthread != nullptr){
             mainthread->join();
         }
@@ -207,22 +192,33 @@ void stop(){
     }
 }
 
+void setinput_thread(float observation[], int lenobs){
+    //this continuous loop select the neurons activation level based on the analog input signal
+    cout <<"Set input" << endl;
+    //int lenobs = sizeof(observation)/sizeof(observation[0]);
+    observationlength = lenobs;
+    for (int i=0;i<lenobs;++i){
+        observations[i] = observation[i];
+        cout <<observations[i] << ",";
+    }
+    cout << endl;
+    //todo enable when input=output
+    //backend->setInput(observations, observationlength);
+}
+
+void setinput_async(float observation[], int lenobs){
+    //will return after spawning background thread
+    //std::thread thread = std::thread(setinput_thread, observation, lenobs);
+    //do not wait
+    //thread.detach();
+}
 
 void setinput(float observation[], int lenobs){
-    if (running){
-        cout <<"Set input" << endl;
-        //int lenobs = sizeof(observation)/sizeof(observation[0]);
-        observationlength = lenobs;
-        for (int i=0;i<lenobs;++i){
-            observations[i] = observation[i];
-            cout <<observation[i] << ",";
-        }
-        cout << endl;
-    } else {
-        //we could in theory set the input before starting, this is a mere warning
-        cout <<"Engine has not yet started." << endl;
-    }
+    //blocking
+    setinput_thread(observation, lenobs);
 }
+
+
 
 float* getAction(){
     neuronoutput[0]+=1;

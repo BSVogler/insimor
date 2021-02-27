@@ -18,6 +18,7 @@ NumericBackend::NumericBackend(){
 void NumericBackend::setInput(float observation[], int length){
     for (int i = 0; i < length; i++){
         input[i] = observation[i];
+        //find maximum neuron
         if (observation[i] > observation[lastmaxindex]) {
             lastmaxindex = i;
         }
@@ -29,6 +30,7 @@ void NumericBackend::coreloop(){
 }
 
 void NumericBackend::setFeedback(float errsig){
+    //update 
     auto dw = weight.at(lastmaxindex)+float(copysign(1.0, (float)(lastaction)) * errsig * learningrate);
     weight.at(lastmaxindex) = dw;
 }

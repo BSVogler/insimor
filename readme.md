@@ -6,3 +6,7 @@ to test run testlib.py
 
 
 You can run the C++ code (main) when compiling and running the extension project in XCode. Compiling as an extension requires the linking of the libpython3.9.dylib.
+
+
+TODO:
+without writing after initializing the observation array is modified
