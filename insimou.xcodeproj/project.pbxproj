@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C0803D825EAF82A008A57D0 /* libpython3.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0803D725EAF82A008A57D0 /* libpython3.9.dylib */; };
 		2C1F862125A9DC97001CF6E9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F861D25A9DC97001CF6E9 /* main.cpp */; };
 		2C1F865225A9E767001CF6E9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F861D25A9DC97001CF6E9 /* main.cpp */; };
-		2CB2AE3825A64AA8009AFBCB /* libpython3.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CB2AE3725A64AA8009AFBCB /* libpython3.9.dylib */; };
-		2CB2AE3B25A65E36009AFBCB /* libpython3.9.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2CB2AE3725A64AA8009AFBCB /* libpython3.9.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		2CB87AA125B34B9700E69DF5 /* numericBackend.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2CB87A9F25B34B9700E69DF5 /* numericBackend.hpp */; };
 		2CB87AA225B34B9700E69DF5 /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */; };
 		2CB87AA325B34B9700E69DF5 /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */; };
@@ -32,7 +31,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2CB2AE3B25A65E36009AFBCB /* libpython3.9.dylib in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,13 +38,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C0803D725EAF82A008A57D0 /* libpython3.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython3.9.dylib; path = "../../../../usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/lib/libpython3.9.dylib"; sourceTree = "<group>"; };
 		2C1F861D25A9DC97001CF6E9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = insimou_ext/main.cpp; sourceTree = SOURCE_ROOT; };
 		2C1F861E25A9DC97001CF6E9 /* setupextension.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = setupextension.py; path = insimou_ext/setupextension.py; sourceTree = SOURCE_ROOT; };
 		2C1F862025A9DC97001CF6E9 /* test.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = test.py; path = insimou_ext/test.py; sourceTree = SOURCE_ROOT; };
 		2C1F862625A9E560001CF6E9 /* insimou.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = insimou.entitlements; path = insimou_ext/insimou.entitlements; sourceTree = SOURCE_ROOT; };
 		2C1F864425A9E6C7001CF6E9 /* libinsimou.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libinsimou.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C70A67E2598AA7500E72C20 /* insimou_ext */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = insimou_ext; sourceTree = BUILT_PRODUCTS_DIR; };
-		2CB2AE3725A64AA8009AFBCB /* libpython3.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython3.9.dylib; path = "../../../../usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin/libpython3.9.dylib"; sourceTree = "<group>"; };
 		2CB87A9F25B34B9700E69DF5 /* numericBackend.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = numericBackend.hpp; path = insimou_ext/numericBackend.hpp; sourceTree = SOURCE_ROOT; };
 		2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = numericBackend.cpp; path = insimou_ext/numericBackend.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -63,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB2AE3825A64AA8009AFBCB /* libpython3.9.dylib in Frameworks */,
+				2C0803D825EAF82A008A57D0 /* libpython3.9.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +102,7 @@
 		2C70A68E2598B41B00E72C20 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2CB2AE3725A64AA8009AFBCB /* libpython3.9.dylib */,
+				2C0803D725EAF82A008A57D0 /* libpython3.9.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -375,11 +373,12 @@
 				DEVELOPMENT_TEAM = 8DQDR268Z4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/include/python3.9";
+				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/include/python3.9";
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
+					"/usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
+					"/usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/lib",
 				);
 				OTHER_CFLAGS = (
 					"-Xclang",
@@ -402,11 +401,12 @@
 				DEVELOPMENT_TEAM = 8DQDR268Z4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/include/python3.9";
+				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/include/python3.9";
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/Cellar/python@3.9/3.9.1_3/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
+					"/usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
+					"/usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/lib",
 				);
 				OTHER_CFLAGS = (
 					"-Xclang",
