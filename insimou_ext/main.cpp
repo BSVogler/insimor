@@ -42,14 +42,14 @@ PyMODINIT_FUNC PyInit_insimou(void) {
 extern "C" {
 using namespace std;
 
-#define NUM_THREADS 3
+#define NUM_THREADS 0
 std::thread* threads[NUM_THREADS];
 bool running = false;
 NumericBackend* backend;
 bool shared_exitflag = false;
 int observationlength = 5;
-float observations[] = {};
-float neuronoutput[OUTPUTDIM] = {0};
+std::vector<float> observations;
+float neuronoutput[OUTPUTDIM] = {0};//todo initialize when back-end has returned firstoutput
 float weight[INPUTDIM] ={1,2,3,4,5};
 float analogsignal = {0};
 std::chrono::high_resolution_clock::time_point begin_time;
@@ -163,16 +163,16 @@ void start_sync(){
 }
 
 void printstats(){
-    cout << "Observations:"<<endl;
+    cout << "Observations: ";
     for (int i=0; i < observationlength; ++i) {
-        cout << observations[i] << "  ";
+        cout << observations[i] << ", ";
     }
     cout <<endl;
-    cout << "Outputs:"<<endl;
-    for (int i=0; i < 5; ++i) {
-        cout << neuronoutput[i] << "  ";
-    }
-    cout <<endl;
+//    cout << "Outputs:"<<endl;
+//    for (int i=0; i < 5; ++i) {
+//        cout << neuronoutput[i] << ", ";
+//    }
+//    cout <<endl;
 }
 
 void stop(){
@@ -197,6 +197,7 @@ void setinput_thread(float observation[], int lenobs){
     cout <<"Set input" << endl;
     //int lenobs = sizeof(observation)/sizeof(observation[0]);
     observationlength = lenobs;
+    observations = std::vector<float>(lenobs);
     for (int i=0;i<lenobs;++i){
         observations[i] = observation[i];
         cout <<observations[i] << ",";
@@ -221,16 +222,20 @@ void setinput(float observation[], int lenobs){
 
 
 float* getAction(){
-    neuronoutput[0]+=1;
+    neuronoutput[0] = 7.0;
     return neuronoutput;
 }
 
 int main ( int argc, char *argv[] ) {
+    //std::this_thread::sleep_for (std::chrono::milliseconds(500));
+    float obs[3] = {3,100,4.4};
+    setinput(obs,3);
     start_sync();
-    std::this_thread::sleep_for (std::chrono::milliseconds(500));
-    float obs[2] = {2,1};
-    setinput(obs,2);
-    std::this_thread::sleep_for (std::chrono::milliseconds(5));
+    printstats();
+    getAction();
+//  //  getAction();
+////getAction();
+//    //std::this_thread::sleep_for (std::chrono::milliseconds(5));
     stop();
 }
 

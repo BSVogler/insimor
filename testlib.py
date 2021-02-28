@@ -15,11 +15,10 @@ except OSError:
     print("Unable to load the system C library")
     sys.exit()
 
-observations = [1.0, 2.0, 3.0]  # Or whatever values you want to pass, but be sure to give only 4
+observations = [3.0, 1000.0, 4.4]  # Or whatever values you want to pass, but be sure to give only 4
 FloatArrayDin = ctypes.c_float * len(observations)  # Define a 4-length array of floats
 parameter_array = FloatArrayDin(*observations)  # Define the actual array to pass to your C function
 insimou.setinput(parameter_array, len(parameter_array))
-insimou.printstats()
 insimou.start_sync() #blocks until spawned
 insimou.printstats()
 time.sleep(0.1)
