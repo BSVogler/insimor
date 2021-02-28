@@ -9,4 +9,4 @@ You can run the C++ code (main) when compiling and running the extension project
 
 
 TODO:
-without writing after initializing the observation array is modified
+embed backe-end in cart-pole
