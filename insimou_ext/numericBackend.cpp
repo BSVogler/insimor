@@ -34,3 +34,7 @@ void NumericBackend::setFeedback(float errsig){
     auto dw = weight.at(lastmaxindex)+float(copysign(1.0, (float)(lastaction)) * errsig * learningrate);
     weight.at(lastmaxindex) = dw;
 }
+
+std::array<float, INPUTDIM> NumericBackend::getWeights(){
+    return weight;
+}

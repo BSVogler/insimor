@@ -28,6 +28,7 @@ public:
     void setInput(float observation[], int length);
     void coreloop();
     void setFeedback(float errsig);
+    std::array<float, INPUTDIM> getWeights();
 };
 
 
