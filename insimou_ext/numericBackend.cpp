@@ -35,6 +35,6 @@ void NumericBackend::setFeedback(float errsig){
     weight.at(lastmaxindex) = dw;
 }
 
-std::array<float, INPUTDIM> NumericBackend::getWeights(){
-    return weight;
+float* NumericBackend::getWeights(){
+    return weight.data();
 }

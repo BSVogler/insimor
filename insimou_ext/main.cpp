@@ -48,9 +48,9 @@ bool running = false;
 NumericBackend* backend;
 bool shared_exitflag = false;
 int observationlength = 5;
+float feedback = 0;
 std::vector<float> observations;
 float neuronoutput[OUTPUTDIM] = {0};//todo initialize when back-end has returned firstoutput
-float weight[INPUTDIM] ={1,2,3,4,5};
 float analogsignal = {0};
 std::chrono::high_resolution_clock::time_point begin_time;
 std::mutex mtx;
@@ -112,7 +112,6 @@ void *feedback_loop(){
         backend->setFeedback(12);
         totalCycles++;
         i = totalCycles % 5;
-        weight[i] = analogsignal;
     }
     mtx.lock();
     cout << "Out Loop: "<< totalCycles<<endl;
@@ -194,15 +193,15 @@ void stop(){
 
 void setinput_thread(float observation[], int lenobs){
     //this continuous loop select the neurons activation level based on the analog input signal
-    cout <<"Set input" << endl;
+    //cout <<"Set input" << endl;
     //int lenobs = sizeof(observation)/sizeof(observation[0]);
     observationlength = lenobs;
     observations = std::vector<float>(lenobs);
     for (int i=0;i<lenobs;++i){
         observations[i] = observation[i];
-        cout <<observations[i] << ",";
+        //cout <<observations[i] << ",";
     }
-    cout << endl;
+    //cout << endl;
     //todo enable when input=output
     //backend->setInput(observations, observationlength);
 }
@@ -219,16 +218,21 @@ void setinput(float observation[], int lenobs){
     setinput_thread(observation, lenobs);
 }
 
+void give_reward(float reward){
+    feedback = reward;
+}
+
 
 
 float* getAction(){
-    neuronoutput[0] = 7.0;
+//neuronoutput[0] = 7.0;
     return neuronoutput;
 }
 
+//std::array<float, INPUTDIM>
 float* getWeights(){
-    return weight;
-    //return ;
+    //cannot get the std::array object and get the pointer with data() here (local?)
+    return backend->getWeights();
 }
 
 int main ( int argc, char *argv[] ) {
