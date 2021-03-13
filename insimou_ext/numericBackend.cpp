@@ -30,8 +30,9 @@ void NumericBackend::coreloop(){
 }
 
 void NumericBackend::setFeedback(float errsig){
-    //update 
+    //update by adding the error
     auto dw = weight.at(lastmaxindex)+float(copysign(1.0, (float)(lastaction)) * errsig * learningrate);
+//std::cout <<dw<< std::endl;
     weight.at(lastmaxindex) = dw;
 }
 

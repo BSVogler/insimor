@@ -42,7 +42,7 @@ PyMODINIT_FUNC PyInit_insimou(void) {
 extern "C" {
 using namespace std;
 
-#define NUM_THREADS 0
+#define NUM_THREADS 1
 std::thread* threads[NUM_THREADS];
 bool running = false;
 NumericBackend* backend;
@@ -88,12 +88,10 @@ void *simulate_loop(){
 
 void *feedback_loop(){
     cout <<"started thread feedback"<< endl;
-    int i = 0;
     int totalCycles = 0;
     while(!shared_exitflag){
-        backend->setFeedback(12);
+        backend->setFeedback(feedback);
         totalCycles++;
-        i = totalCycles % 5;
     }
     mtx.lock();
     cout << "Out Loop: "<< totalCycles<<endl;
@@ -200,6 +198,9 @@ void setinput(float observation[], int lenobs){
 
 void give_reward(float reward){
     feedback = reward;
+    if (NUM_THREADS <= 1){
+        backend->setFeedback(feedback);
+    }
 }
 
 
