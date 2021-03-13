@@ -86,24 +86,6 @@ void *simulate_loop(){
     pthread_exit(NULL);
 }
 
-
-void *out_loop(){
-    int i = 0;
-    int totalCycles = 0;
-    while(!shared_exitflag){
-        totalCycles++;
-        i = totalCycles % 5;
-        //this translates spikes to an analog signal
-        analogsignal += 1;
-    }
-    mtx.lock();
-    cout << "Out Loop: "<< totalCycles<<endl;
-    float duration = std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - begin_time ).count();
-    std::cout << totalCycles<<"cycles /"<<duration<<"us ="<< totalCycles/duration<<"cycles/us"<<endl;
-    mtx.unlock();
-    pthread_exit(NULL);
-}
-
 void *feedback_loop(){
     cout <<"started thread feedback"<< endl;
     int i = 0;
@@ -136,8 +118,6 @@ void mainthreadf(){
         if (i==0) {
             threads[i] = new std::thread(simulate_loop);
         } else if(i==1){
-            threads[i] = new std::thread(out_loop);
-        } else if(i==2){
             threads[i] = new std::thread(feedback_loop);//, PrintHello, std::ref(td[i])
         } else {
             
