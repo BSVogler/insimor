@@ -7,12 +7,13 @@
 
 #ifndef numericBackend_hpp
 #define numericBackend_hpp
-#define INPUTDIM 10
-#define OUTPUTDIM 1
+
 
 #include <stdio.h>
 #include <array>
 #include <vector>
+#include "PlaceCellLayer.hpp"
+#include "settings.h"
 
 class NumericBackend {
 private:
