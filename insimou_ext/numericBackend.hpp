@@ -15,18 +15,23 @@
 #include "PlaceCellLayer.hpp"
 #include "settings.h"
 
+class PlaceCellLayer;
+
 class NumericBackend {
 private:
-    std::array<float, INPUTDIM> input;
+    std::array<float, INPUTDIM> observation;
     std::array<float, INPUTDIM> action;
     std::array<float, INPUTDIM> weight;
     int lastmaxindex = 0;
+    float lastactivation = 0;
     int lastaction = 0;
-    const float learningrate = 0.1;
+    const float learningrate = 1;
+    const float gvwmax = 2; //todoobtain from python settings
+    PlaceCellLayer placecelllayer;
     
 public:
-    NumericBackend();
-    void setInput(float observation[], int length);
+    NumericBackend(std::array<int, INPUTDIM> min, std::array<int, INPUTDIM> max, std::array<int, INPUTDIM> res);
+    void setObservation(float observation[], int length);
     void coreloop();
     void setFeedback(float errsig);
     float* getWeights();
