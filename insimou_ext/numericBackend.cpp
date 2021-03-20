@@ -7,12 +7,26 @@
 
 #include "numericBackend.hpp"
 #include <iostream>
+#include <random>
 
 NumericBackend::NumericBackend(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res): placecelllayer(min, max, res)
 {
+    std::random_device rd;
+
+    std::mt19937 e2(rd());
+    std::uniform_real_distribution<> dist(-0.5, 0.5);
+    
+    //start with zero input and output
     observation.fill(0);
     action.fill(0);
-    weight.fill(0);
+    //init with random weights
+    int numcells =this->placecelllayer.numCells();
+    weight.reserve(numcells);
+    std::cout <<"NUM WEIGHTS: "<<numcells <<std::endl;
+    for (int i =0; i <numcells ; i++){
+            float b = dist(e2);
+            weight.push_back(b);
+        }
 }
 
 

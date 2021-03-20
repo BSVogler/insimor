@@ -28,6 +28,7 @@ private:
 public:
     PlaceCellLayer(std::array<float, INPUTDIM>min,std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res);
     std::vector<float> activation(std::array<float, INPUTDIM> observation);
+    int numCells();
 };
 
 

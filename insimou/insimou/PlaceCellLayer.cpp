@@ -8,7 +8,7 @@
 #include "PlaceCellLayer.hpp"
 #include <math.h>       /* pow */
 #include<numeric>
-
+#include <iostream>
 using position = std::array<float, INPUTDIM>;
 
 PlaceCellLayer::PlaceCellLayer(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res){
@@ -37,6 +37,10 @@ PlaceCellLayer::PlaceCellLayer(std::array<float, INPUTDIM> min, std::array<float
             this->positions[i][dim] = pos[dim] * this->distance_pc[dim] + min[dim];
         }
     }
+}
+
+int PlaceCellLayer::numCells(){
+    return numPos;
 }
 
 std::vector<float> PlaceCellLayer::activation(position observation){

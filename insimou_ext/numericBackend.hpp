@@ -21,7 +21,7 @@ class NumericBackend {
 private:
     std::array<float, INPUTDIM> observation;
     std::array<float, INPUTDIM> action;
-    std::array<float, INPUTDIM> weight;
+    std::vector<float> weight;
     int lastmaxindex = 0;
     float lastactivation = 0;
     int lastaction = 0;
