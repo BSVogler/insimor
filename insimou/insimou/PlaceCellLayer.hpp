@@ -11,21 +11,23 @@
 #include <stdio.h>
 #include <stdio.h>
 #include <array>
+#include <vector>
 #include "settings.h"
-
+#include <math.h>
 
 
 
 class PlaceCellLayer {
 private:
-    std::array<std::array<float, INPUTDIM>, INPUTDIM> positions;
+    int numPos;
+    std::vector<std::array<float, INPUTDIM>> positions;
     std::array<float, INPUTDIM> distance_pc;
     double vq_decay = 1;
     float sigmafactor = 1;
-    std::array<int, INPUTDIM> vector_quantization(std::array<float, INPUTDIM> observation, std::array<float, INPUTDIM> dist2);
+    void vector_quantization(std::array<float, INPUTDIM> observation, std::array<float, INPUTDIM> dist2);
 public:
-    PlaceCellLayer(std::array<int, INPUTDIM>min,std::array<int, INPUTDIM> max, std::array<int, INPUTDIM> res);
-    std::array<int, INPUTDIM> activation(std::array<float, INPUTDIM> observation);
+    PlaceCellLayer(std::array<float, INPUTDIM>min,std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res);
+    std::vector<float> activation(std::array<float, INPUTDIM> observation);
 };
 
 

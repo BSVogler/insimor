@@ -8,7 +8,7 @@
 #include "numericBackend.hpp"
 #include <iostream>
 
-NumericBackend::NumericBackend(std::array<int, INPUTDIM> min, std::array<int, INPUTDIM> max, std::array<int, INPUTDIM> res): placecelllayer(min, max, res)
+NumericBackend::NumericBackend(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res): placecelllayer(min, max, res)
 {
     observation.fill(0);
     action.fill(0);
@@ -29,10 +29,10 @@ void NumericBackend::setObservation(float observation[], int length){
 void NumericBackend::coreloop(){
     //calling multiple times causes side effects
     lastaction = observation.at(lastmaxindex)* weight.at(lastmaxindex);
-    
+    //get activation of all input layer neurons
     auto activations = this->placecelllayer.activation(this->observation);
-    //lateral inhibition causes one hot encoding
-    lastmaxindex = std::distance(activations.begin(), std::max_element(activations.begin(), activations.end()));
+    //lateral inhibition causes one hot encoding, find maximum
+    lastmaxindex = int(std::distance(activations.begin(), std::max_element(activations.begin(), activations.end())));
 
     this->lastactivation = this->weight[lastmaxindex];
 

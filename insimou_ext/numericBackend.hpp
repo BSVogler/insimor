@@ -30,7 +30,7 @@ private:
     PlaceCellLayer placecelllayer;
     
 public:
-    NumericBackend(std::array<int, INPUTDIM> min, std::array<int, INPUTDIM> max, std::array<int, INPUTDIM> res);
+    NumericBackend(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res);
     void setObservation(float observation[], int length);
     void coreloop();
     void setFeedback(float errsig);

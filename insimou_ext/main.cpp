@@ -103,7 +103,11 @@ void *feedback_loop(){
 
 void mainthreadf(){
     cout <<"Starting engine."<< endl;
-    backend = new NumericBackend();
+    //todo get values from python
+    std::array<float, INPUTDIM>  min ={-2.4,-3,-0.209,-4};
+    std::array<float, INPUTDIM>  max = {2.4,3,0.209,4};
+    std::array<int, INPUTDIM> num_neurons_dim = {7,7,15,15};
+    backend = new NumericBackend(min, max, num_neurons_dim);
     struct thread_data td[NUM_THREADS];
     //int rc;
     int i;
@@ -134,6 +138,7 @@ void start_async(){
     mainthread = new std::thread(mainthreadf);
 }
 
+//todo add parameter
 void start_sync(){
     //synchronous, will spawn threads and after spawning return
     mainthreadf();
