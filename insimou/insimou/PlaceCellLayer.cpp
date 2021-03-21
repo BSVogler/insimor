@@ -7,7 +7,7 @@
 
 #include "PlaceCellLayer.hpp"
 #include <math.h>       /* pow */
-#include<numeric>
+#include <numeric>
 #include <iostream>
 using position = std::array<float, INPUTDIM>;
 
@@ -22,20 +22,23 @@ PlaceCellLayer::PlaceCellLayer(std::array<float, INPUTDIM> min, std::array<float
     //distance between centers covered by the pc per dimension
 
     //fill list of all equidistance placed neurons
-    auto pos = position();
+    position  pos = position();
     for (int i=0; i<numPos; ++i){
         int currentDimIterator=0;
-        //copy array for new point
-        std::array<float, INPUTDIM> newpos = pos;
-        while(newpos[currentDimIterator]+1 == res[currentDimIterator]){
+        this->positions.push_back(pos);//alternatively set with = and use resize in init
+        for (int dim=0;dim<INPUTDIM;++dim){
+            //scale
+            this->positions[i][dim] = pos[dim] * this->distance_pc[dim] + min[dim];
+            //std::cout << pos[dim] << "("<< this->positions[i][dim] << ")"<<", ";
+        }
+        //std::cout << std::endl;
+        //iterate
+        while(pos[currentDimIterator]+1 == res[currentDimIterator]){
             //übertrag
-            newpos[currentDimIterator] = 0;
+            pos[currentDimIterator] = 0;
             currentDimIterator++;
         }
-        newpos[currentDimIterator]++;
-        for (int dim=0;dim<INPUTDIM;++dim){
-            this->positions[i][dim] = pos[dim] * this->distance_pc[dim] + min[dim];
-        }
+        pos[currentDimIterator]++;
     }
 }
 
