@@ -35,6 +35,7 @@ public:
     void coreloop();
     void setFeedback(float errsig);
     float* getWeights();
+    float* getActions();
 };
 
 

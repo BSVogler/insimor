@@ -150,11 +150,11 @@ void printstats(){
         cout << observations[i] << ", ";
     }
     cout <<endl;
-//    cout << "Outputs:"<<endl;
-//    for (int i=0; i < 5; ++i) {
-//        cout << neuronoutput[i] << ", ";
-//    }
-//    cout <<endl;
+    //    cout << "Outputs:"<<endl;
+    //    for (int i=0; i < 5; ++i) {
+    //        cout << neuronoutput[i] << ", ";
+    //    }
+    //    cout <<endl;
 }
 
 void stop(){
@@ -174,21 +174,6 @@ void stop(){
     }
 }
 
-void setinput_thread(float observation[], int lenobs){
-    //this continuous loop select the neurons activation level based on the analog input signal
-    //cout <<"Set input" << endl;
-    //int lenobs = sizeof(observation)/sizeof(observation[0]);
-    observationlength = lenobs;
-    observations = std::vector<float>(lenobs);
-    for (int i=0;i<lenobs;++i){
-        observations[i] = observation[i];
-        //cout <<observations[i] << ",";
-    }
-    //cout << endl;
-    //todo enable when input=output
-    //backend->setInput(observations, observationlength);
-}
-
 void setinput_async(float observation[], int lenobs){
     //will return after spawning background thread
     //std::thread thread = std::thread(setinput_thread, observation, lenobs);
@@ -198,7 +183,12 @@ void setinput_async(float observation[], int lenobs){
 
 void setinput(float observation[], int lenobs){
     //blocking
-    setinput_thread(observation, lenobs);
+    observationlength = lenobs;
+    observations = std::vector<float>(lenobs);
+    for (int i=0;i<lenobs;++i){
+        observations[i] = observation[i];
+    }
+    backend->setObservation(observation,lenobs);
 }
 
 void give_reward(float reward){
@@ -211,28 +201,25 @@ void give_reward(float reward){
 
 
 float* getAction(){
-//neuronoutput[0] = 7.0;
-    return neuronoutput;
+    return backend->getActions();
 }
 
 //std::array<float, INPUTDIM>
 float* getWeights(){
+    std::cout<< "GETWEIGHTS" <<std::endl;
     //cannot get the std::array object and get the pointer with data() here (local?)
     return backend->getWeights();
 }
 
 int main ( int argc, char *argv[] ) {
     //std::this_thread::sleep_for (std::chrono::milliseconds(500));
-    float obs[3] = {3,100,4.4};
-    setinput(obs,3);
+    float obs[4] = {3,100,4.4,12};
+    setinput(obs,4);
     start_sync();
     printstats();
     getAction();
-//  //  getAction();
-////getAction();
-//    //std::this_thread::sleep_for (std::chrono::milliseconds(5));
+    //  getAction();
+    //    //std::this_thread::sleep_for (std::chrono::milliseconds(5));
     stop();
 }
-
-}
-
+} //end extern C

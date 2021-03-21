@@ -71,16 +71,14 @@ std::vector<float> PlaceCellLayer::activation(position observation){
                 float dist =float(neuron[dim] - observation[dim]) / this->distance_pc[dim];
                 norm += dist*dist;
             }
-            std::cout <<"n("<<i<<"): "<<norm<<std::endl;
+            //std::cout <<"n("<<i<<"): "<<norm<<std::endl;
             norm =sqrt(norm);
             scaleddistance.push_back(norm);
             distancesum += norm;
         }
     }
-    std::cout << "SUMSUM";
-    std::cout << std::endl << scaleddistance.size()<<std::endl;
     //normalize and exp so that near neurosn are exponentialyl weighted more
-    std::cout <<"sum"<<distancesum;
+    std::cout <<"sum scaleddistance"<<distancesum<<std::endl;
     for (auto neurondist : scaleddistance) {
         //std::cout << neurondist << ", ";
         neurondist = exp(-neurondist / distancesum);
