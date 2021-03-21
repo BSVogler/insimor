@@ -14,10 +14,13 @@ using position = std::array<float, INPUTDIM>;
 PlaceCellLayer::PlaceCellLayer(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res){
     //calculate total number of positions
     this->numPos = res[0];
+    this->distance_pc = std::array<float, INPUTDIM>();
     for (int dim=1; dim<INPUTDIM; ++dim){
         this->distance_pc[dim] = abs((max[dim] - min[dim])) / (res[dim] - 1);
+        std::cout << this->distance_pc[dim] <<", ";
         numPos *= res[dim];
     }
+    std::cout<< &this->distance_pc <<std::endl;
     this->positions.reserve(numPos);
     //distance between centers covered by the pc per dimension
 
@@ -46,10 +49,16 @@ int PlaceCellLayer::numCells(){
     return numPos;
 }
 
+/*return activation per neuron by calcualting the distance to the observation  in input space*/
 std::vector<float> PlaceCellLayer::activation(position observation){
-    /*return activation per neuron by calcualting the distance to the observation  in input space*/
+    //how can this happen???? THERE MUST BE SOME POINTER OVERWRITING THIS MEMORY (unsafe operation)
+    if (this->distance_pc[0]==0){
+        std::cout << "WARNARWARNARNWARNARNN";
+    }
+    
     auto scaleddistance = std::vector<float>();
     scaleddistance.reserve(numPos);
+    float distancesum = 0;
     if (false and vq_learning_scale > 0){
         // changes every time, so cannot be cached
 //        auto rezsigma = this->sigmafactor / this->distance_pc;
@@ -60,21 +69,35 @@ std::vector<float> PlaceCellLayer::activation(position observation){
         //use lp2 norm, weighted by dimensionality density
         int i=0;
         //calcualte distance for each neuron in scaleddistance
-        for (std::vector<float>::iterator neuron=scaleddistance.begin(); neuron != scaleddistance.end(); ++neuron){
+        std::cout << "SIZE"<<this->positions.size() <<std::endl;
+        for (auto neuron : this->positions){
             ++i;
             // calculate norm(observation-dim), why L2 norm
             float norm = 0;
             for (int dim=0; dim < INPUTDIM; ++dim){
-                norm += (this->positions[i][dim] - observation[dim]) / this->distance_pc[dim];
+                std::cout<< &this->distance_pc <<std::endl;
+                std::cout << "n:"<<neuron[dim]<<" o:" << observation[dim] << " d: "<<(this->distance_pc[dim])<<", ";
+                float dist =float(neuron[dim] - observation[dim]) / this->distance_pc[dim];
+                
+                std::cout << dist << ", ";
+                norm += dist*dist;
             }
-            *neuron = sqrt(norm);
+            std::cout<<std::endl;
+            std::cout <<"n("<<i<<"): "<<norm<<std::endl;
+            norm =sqrt(norm);
+            scaleddistance.push_back(norm);
+            distancesum += norm;
         }
     }
+    std::cout << "SUMSUM";
+    std::cout << std::endl << scaleddistance.size()<<std::endl;
     //normalize and exp so that near neurosn are exponentialyl weighted more
-    auto sum = accumulate(scaleddistance.begin(),scaleddistance.end(),0);
-    for (std::vector<float>::iterator neurondist=scaleddistance.begin(); neurondist != scaleddistance.end(); ++neurondist) {
-        *neurondist = exp(-*neurondist / sum);
+    std::cout <<"sum"<<distancesum;
+    for (auto neurondist : scaleddistance) {
+        //std::cout << neurondist << ", ";
+        neurondist = exp(-neurondist / distancesum);
     }
+    //std::cout<<std::endl;
     
     return scaleddistance;
 }

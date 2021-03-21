@@ -9,7 +9,7 @@
 #include <iostream>
 #include <random>
 
-NumericBackend::NumericBackend(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res): placecelllayer(min, max, res)
+NumericBackend::NumericBackend(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res): placecelllayer(min, max, res), lastmaxindex(-1)
 {
     std::random_device rd;
 
@@ -24,25 +24,27 @@ NumericBackend::NumericBackend(std::array<float, INPUTDIM> min, std::array<float
     weight.reserve(numcells);
     std::cout <<"NUM WEIGHTS: "<<numcells <<std::endl;
     for (int i =0; i <numcells ; i++){
-            float b = dist(e2);
-            weight.push_back(b);
-        }
+        float b = dist(e2);
+        weight.push_back(b);
+    }
 }
 
 
 void NumericBackend::setObservation(float observation[], int length){
-    for (int i = 0; i < length; i++){
-        observation[i] = observation[i];
-        //find maximum neuron
-        if (observation[i] > observation[lastmaxindex]) {
-            lastmaxindex = i;
-        }
+    for (int dim = 0; dim < length; dim++){
+        this->observation[dim] = observation[dim];
     }
+    std::cout<< "lasmax"<<lastmaxindex <<std::endl;
 }
 
 void NumericBackend::coreloop(){
     //calling multiple times causes side effects
-    lastaction = observation.at(lastmaxindex)* weight.at(lastmaxindex);
+    
+    //only set when loop once through
+    if (lastmaxindex > -1){
+        lastaction = observation.at(lastmaxindex)* weight.at(lastmaxindex);
+    }
+
     //get activation of all input layer neurons
     auto activations = this->placecelllayer.activation(this->observation);
     //lateral inhibition causes one hot encoding, find maximum

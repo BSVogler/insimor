@@ -72,7 +72,7 @@ void *PrintHello(void *threadarg) {
 
 
 void *simulate_loop(){
-    int totalCycles = 0;
+    long totalCycles = 0;
     while(!shared_exitflag){
         ++totalCycles;
         backend->coreloop();
