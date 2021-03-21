@@ -16,12 +16,12 @@
 #include <math.h>
 
 
-
+using position = std::array<float, INPUTDIM>;
 class PlaceCellLayer {
 private:
     int numPos;
-    std::vector<std::array<float, INPUTDIM>> positions;
-    std::array<float, INPUTDIM> distance_pc;
+    std::vector<position> positions;
+    std::array<float, INPUTDIM> distance_pc;//distance of this place cells along this dimension  when initialized
     double vq_decay = 1;
     float sigmafactor = 1;
     void vector_quantization(std::array<float, INPUTDIM> observation, std::array<float, INPUTDIM> dist2);
