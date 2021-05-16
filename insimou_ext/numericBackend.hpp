@@ -18,9 +18,21 @@
 class PlaceCellLayer;
 
 //the numeric backend is an abstraction of SNN
+
 class NumericBackend {
+public:
+    //static NumericBackend* inst();
+    void setObservation(float observation[], int length);
+    void coreloop();
+    void setFeedback(float errsig);
+    float* getWeights();
+    float* getActions();
+    //this should be private and protected
+
+    NumericBackend(std::vector<float> min, std::vector<float> max, std::vector<int> res);
+protected:
+    NumericBackend ( const NumericBackend& );//prevent copy constructor
 private:
-    //why use arrays here? the input must be specified at compile time
     std::vector<float> observation;
     std::vector<float> action;
     std::vector<float> weight;
@@ -30,14 +42,6 @@ private:
     const float learningrate = 1;
     const float gvwmax = 2; //todoobtain from python settings
     PlaceCellLayer placecelllayer;
-    
-public:
-    NumericBackend(std::vector<float> min, std::vector<float> max, std::vector<int> res);
-    void setObservation(float observation[], int length);
-    void coreloop();
-    void setFeedback(float errsig);
-    float* getWeights();
-    float* getActions();
 };
 
 

@@ -11,9 +11,11 @@
 #include <iostream>
 #include <cstdlib>
 #include <thread>
+#include <vector>
 #include <chrono>
 #include <mutex>
-#include <array>
+#include <unistd.h>
+#include "settings.h"
 #include "numericBackend.hpp"
 
 
@@ -45,7 +47,7 @@ using namespace std;
 #define NUM_THREADS 1
 std::thread* threads[NUM_THREADS];
 bool running = false;
-NumericBackend* backend;
+NumericBackend* backend = nullptr;
 bool shared_exitflag = false;
 int observation_dims = 4;
 float feedback = 0;
@@ -71,25 +73,28 @@ void *PrintHello(void *threadarg) {
     pthread_exit(NULL);
 }
 
-NumericBackend* get_backend(){
+
+//it is somehow nto possible to put this into the public namespace of the class
+static NumericBackend* getNumericBackend(){
     //lazy constructor
-    if (backend == nullptr){
-        //todo get values from python
-        float arr[] = {-2.4,-3,-0.209,-4};
-        // Initialize vector with a string array
-        std::vector<float>  min(arr, arr + sizeof(arr)/sizeof(float));
-        float arr_max[] = {2.4,3,0.209,4};
-        std::vector<float>  max(arr_max, arr_max + sizeof(arr_max)/sizeof(float));
-        float arr_num[] = {7,7,15,15};
-        std::vector<int> num_neurons_dim(arr_num, arr_num + sizeof(arr_num)/sizeof(float));
-        backend = new NumericBackend(min, max, num_neurons_dim);
-    }
-    return backend;
+   if (backend == 0){
+       //todo get values from python
+       float arr[] = {-2.4,-3,-0.209,-4};
+       // Initialize vector with a string array
+       std::vector<float>  min(arr, arr + sizeof(arr)/sizeof(float));
+       float arr_max[] = {2.4,3,0.209,4};
+       std::vector<float>  max(arr_max, arr_max + sizeof(arr_max)/sizeof(float));
+       float arr_num[] = {7,7,15,15};
+       std::vector<int> num_neurons_dim(arr_num, arr_num + sizeof(arr_num)/sizeof(float));
+       backend = new NumericBackend(min, max, num_neurons_dim);
+   }
+   return backend;
 }
 
 
 void *simulate_loop(){
     long totalCycles = 0;
+    auto backend = getNumericBackend();
     while(!shared_exitflag){
         ++totalCycles;
         backend->coreloop();
@@ -103,42 +108,25 @@ void *simulate_loop(){
     pthread_exit(NULL);
 }
 
-void *feedback_loop(){
-    cout <<"started thread feedback"<< endl;
-    int totalCycles = 0;
-    while(!shared_exitflag){
-        backend->setFeedback(feedback);
-        totalCycles++;
-    }
-    mtx.lock();
-    cout << "Out Loop: "<< totalCycles<<endl;
-    float duration = std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - begin_time ).count();
-    std::cout << totalCycles<<"cycles /"<<duration<<"us ="<< totalCycles/duration<<"cycles/us"<<endl;
-    mtx.unlock();
-    pthread_exit(NULL);
-}
-
 void mainthreadf(){
-    cout <<"Starting engine."<< endl;
+    //cout <<"Starting engine."<< endl;
     struct thread_data td[NUM_THREADS];
     //int rc;
     int i;
     
     begin_time = std::chrono::high_resolution_clock::now();
     for( i = 0; i < NUM_THREADS; ++i ) {
-        cout <<"main() : creating thread, " << i << endl;
+        //cout <<"main() : creating thread, " << i << endl;
         td[i].thread_id = i+1;
         td[i].message = "This is message";
         if (i==0) {
             threads[i] = new std::thread(simulate_loop);
-        } else if(i==1){
-            threads[i] = new std::thread(feedback_loop);//, PrintHello, std::ref(td[i])
         } else {
             
         }
     }
     running = true;
-    cout <<"Started engine."<< endl;
+    //cout <<"Started engine."<< endl;
     //cout <<"Will sleep" << endl;
     //std::this_thread::sleep_for (std::chrono::milliseconds(200));
     //pthread_exit(NULL);
@@ -172,7 +160,6 @@ void printstats(){
 
 void stop(){
     if (running){
-        cout <<"Will stop threads" << endl;
         shared_exitflag=true;//stops the threads
         for( int i = 0; i < NUM_THREADS; ++i ) {
             threads[i]->join();
@@ -181,7 +168,6 @@ void stop(){
         if (mainthread != nullptr){
             mainthread->join();
         }
-        cout << "Done";
     } else {
         cout <<"Engine has not yet started." << endl;
     }
@@ -201,25 +187,25 @@ void setinput(float observation[], int lenobs){
     for (int i=0;i<lenobs;++i){
         observations[i] = observation[i];
     }
-    get_backend()->setObservation(observation,lenobs);
+    getNumericBackend()->setObservation(observation,lenobs);
 }
 
 void give_reward(float reward){
     feedback = reward;
     if (NUM_THREADS <= 1){
-        backend->setFeedback(feedback);
+        getNumericBackend()->setFeedback(feedback);
     }
 }
 
 float* getAction(){
-    return backend->getActions();
+    return getNumericBackend()->getActions();
 }
 
 //std::array<float, INPUTDIM>
 float* getWeights(){
     std::cout<< "GETWEIGHTS" <<std::endl;
     //cannot get the std::array object and get the pointer with data() here (local?)
-    return backend->getWeights();
+    return getNumericBackend()->getWeights();
 }
 
 int main ( int argc, char *argv[] ) {
@@ -227,9 +213,12 @@ int main ( int argc, char *argv[] ) {
     float obs[4] = {3,100,4.4,12};
     setinput(obs, 4);
     start_sync();
+    usleep(200);
     printstats();
+    
     getAction();
-    //  getAction();
+    getAction();
+    getAction();
     //    //std::this_thread::sleep_for (std::chrono::milliseconds(5));
     stop();
 }
