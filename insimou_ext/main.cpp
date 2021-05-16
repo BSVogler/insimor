@@ -47,7 +47,7 @@ std::thread* threads[NUM_THREADS];
 bool running = false;
 NumericBackend* backend;
 bool shared_exitflag = false;
-int observationlength = 5;
+int observation_dims = 4;
 float feedback = 0;
 std::vector<float> observations;
 float neuronoutput[OUTPUTDIM] = {0};//todo initialize when back-end has returned firstoutput
@@ -145,8 +145,9 @@ void start_sync(){
 }
 
 void printstats(){
+    //print the observations. Test function for developers.
     cout << "Observations: ";
-    for (int i=0; i < observationlength; ++i) {
+    for (int i=0; i < observations.size(); ++i) {
         cout << observations[i] << ", ";
     }
     cout <<endl;
@@ -183,7 +184,7 @@ void setinput_async(float observation[], int lenobs){
 
 void setinput(float observation[], int lenobs){
     //blocking
-    observationlength = lenobs;
+    observation_dims = lenobs;
     observations = std::vector<float>(lenobs);
     for (int i=0;i<lenobs;++i){
         observations[i] = observation[i];
