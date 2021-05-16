@@ -61,6 +61,7 @@ struct thread_data {
 };
 
 void *PrintHello(void *threadarg) {
+    //test/developer method?
     struct thread_data *my_data;
     my_data = (struct thread_data *) threadarg;
     
@@ -68,6 +69,22 @@ void *PrintHello(void *threadarg) {
     //cout << " Message : " << my_data->message << endl;
     
     pthread_exit(NULL);
+}
+
+NumericBackend* get_backend(){
+    //lazy constructor
+    if (backend == nullptr){
+        //todo get values from python
+        float arr[] = {-2.4,-3,-0.209,-4};
+        // Initialize vector with a string array
+        std::vector<float>  min(arr, arr + sizeof(arr)/sizeof(float));
+        float arr_max[] = {2.4,3,0.209,4};
+        std::vector<float>  max(arr_max, arr_max + sizeof(arr_max)/sizeof(float));
+        float arr_num[] = {7,7,15,15};
+        std::vector<int> num_neurons_dim(arr_num, arr_num + sizeof(arr_num)/sizeof(float));
+        backend = new NumericBackend(min, max, num_neurons_dim);
+    }
+    return backend;
 }
 
 
@@ -103,11 +120,6 @@ void *feedback_loop(){
 
 void mainthreadf(){
     cout <<"Starting engine."<< endl;
-    //todo get values from python
-    std::array<float, INPUTDIM>  min ={-2.4,-3,-0.209,-4};
-    std::array<float, INPUTDIM>  max = {2.4,3,0.209,4};
-    std::array<int, INPUTDIM> num_neurons_dim = {7,7,15,15};
-    backend = new NumericBackend(min, max, num_neurons_dim);
     struct thread_data td[NUM_THREADS];
     //int rc;
     int i;
@@ -189,7 +201,7 @@ void setinput(float observation[], int lenobs){
     for (int i=0;i<lenobs;++i){
         observations[i] = observation[i];
     }
-    backend->setObservation(observation,lenobs);
+    get_backend()->setObservation(observation,lenobs);
 }
 
 void give_reward(float reward){
@@ -198,8 +210,6 @@ void give_reward(float reward){
         backend->setFeedback(feedback);
     }
 }
-
-
 
 float* getAction(){
     return backend->getActions();
@@ -215,7 +225,7 @@ float* getWeights(){
 int main ( int argc, char *argv[] ) {
     //std::this_thread::sleep_for (std::chrono::milliseconds(500));
     float obs[4] = {3,100,4.4,12};
-    setinput(obs,4);
+    setinput(obs, 4);
     start_sync();
     printstats();
     getAction();
