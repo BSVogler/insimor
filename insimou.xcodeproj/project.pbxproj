@@ -317,7 +317,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.1_2/Frameworks/Python.framework/Versions/Current/include/python3.9";
+				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/Current/include/python3.9";
 			};
 			name = Debug;
 		};
@@ -373,7 +373,7 @@
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.1_2/Frameworks/Python.framework/Versions/Current/include/python3.9";
+				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/Current/include/python3.9";
 			};
 			name = Release;
 		};
@@ -387,12 +387,12 @@
 				DEVELOPMENT_TEAM = 8DQDR268Z4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.2_1/Frameworks/Python.framework/Versions/Current/include/python3.9";
+				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.4Frameworks/Python.framework/Versions/Current/include/python3.9";
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/Cellar/python@3.9/3.9.2_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
-					"/usr/local/Cellar/python@3.9/3.9.2_1/Frameworks/Python.framework/Versions/3.9/lib",
+					"/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
+					"/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9/lib",
 				);
 				OTHER_CFLAGS = (
 					"-Xclang",
@@ -415,12 +415,12 @@
 				DEVELOPMENT_TEAM = 8DQDR268Z4;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.2_1/Frameworks/Python.framework/Versions/Current/include/python3.9";
+				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.4Frameworks/Python.framework/Versions/Current/include/python3.9";
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/Cellar/python@3.9/3.9.2_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
-					"/usr/local/Cellar/python@3.9/3.9.2_1/Frameworks/Python.framework/Versions/3.9/lib",
+					"/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
+					"/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9/lib",
 				);
 				OTHER_CFLAGS = (
 					"-Xclang",
