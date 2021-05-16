@@ -17,10 +17,12 @@
 
 class PlaceCellLayer;
 
+//the numeric backend is an abstraction of SNN
 class NumericBackend {
 private:
-    std::array<float, INPUTDIM> observation;
-    std::array<float, INPUTDIM> action;
+    //why use arrays here? the input must be specified at compile time
+    std::vector<float> observation;
+    std::vector<float> action;
     std::vector<float> weight;
     int lastmaxindex = 0;
     float lastactivation = 0;
@@ -30,7 +32,7 @@ private:
     PlaceCellLayer placecelllayer;
     
 public:
-    NumericBackend(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res);
+    NumericBackend(std::vector<float> min, std::vector<float> max, std::vector<int> res);
     void setObservation(float observation[], int length);
     void coreloop();
     void setFeedback(float errsig);

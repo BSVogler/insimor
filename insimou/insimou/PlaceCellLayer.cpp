@@ -9,13 +9,17 @@
 #include <math.h>       /* pow */
 #include <numeric>
 #include <iostream>
-using position = std::array<float, INPUTDIM>;
+//using position = std::vector<float>;
 
-PlaceCellLayer::PlaceCellLayer(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res){
+PlaceCellLayer::PlaceCellLayer(std::vector<float> min,
+                               std::vector<float> max,
+                               std::vector<int> res) :
+                                distance_pc(min.size())
+{
     //calculate total number of positions
     this->numPos = res[0];
-    this->distance_pc = std::array<float, INPUTDIM>();
-    for (int dim=0; dim<INPUTDIM; ++dim){
+    this->distance_pc = std::vector<float>();
+    for (int dim=0; dim<this->distance_pc.size(); ++dim){
         this->distance_pc[dim] = abs((max[dim] - min[dim])) / (res[dim] - 1);
         std::cout << this->distance_pc[dim] <<", ";
         numPos *= res[dim];
@@ -24,11 +28,11 @@ PlaceCellLayer::PlaceCellLayer(std::array<float, INPUTDIM> min, std::array<float
     //distance between centers covered by the pc per dimension
 
     //fill list of all equidistance placed neurons
-    position  pos = position();
+    position  pos = position(min.size());
     for (int i=0; i<numPos; ++i){
         int currentDimIterator=0;
         this->positions.push_back(pos);//alternatively set with = and use resize in init
-        for (int dim=0;dim<INPUTDIM;++dim){
+        for (int dim=0; dim < this->positions.size(); ++dim){
             //scale
             this->positions[i][dim] = pos[dim] * this->distance_pc[dim] + min[dim];
             //std::cout << pos[dim] << "("<< this->positions[i][dim] << ")"<<", ";
@@ -89,7 +93,7 @@ std::vector<float> PlaceCellLayer::activation(position observation){
 }
 
 
-void PlaceCellLayer::vector_quantization(position observation, std::array<float, INPUTDIM> dist2) {
+void PlaceCellLayer::vector_quantization(position observation, std::vector<float> dist2) {
     // exponentially decrease strength of vq
     this->vq_decay *= 1 - this->vq_decay;
     //changeamount = vq_learning_scale * np.exp(-dist2 / self.vq_decay)

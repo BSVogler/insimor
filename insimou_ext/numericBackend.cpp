@@ -9,7 +9,11 @@
 #include <iostream>
 #include <random>
 
-NumericBackend::NumericBackend(std::array<float, INPUTDIM> min, std::array<float, INPUTDIM> max, std::array<int, INPUTDIM> res): placecelllayer(min, max, res), lastmaxindex(-1)
+NumericBackend::NumericBackend(std::vector<float> min,
+                               std::vector<float> max,
+                               std::vector<int> res):
+    placecelllayer(min, max, res),
+    lastmaxindex(-1)
 {
     std::random_device rd;
     
@@ -17,10 +21,10 @@ NumericBackend::NumericBackend(std::array<float, INPUTDIM> min, std::array<float
     std::uniform_real_distribution<> dist(-0.5, 0.5);
     
     //start with zero input and output
-    observation.fill(0);
-    action.fill(0);
+    observation.resize(min.size());//if not 0 wanted use std::fill
+    action.resize(5);
     //init with random weights
-    int numcells =this->placecelllayer.numCells();
+    int numcells = this->placecelllayer.numCells();
     weight.reserve(numcells);
     std::cout <<"NUM WEIGHTS: "<<numcells <<std::endl;
     for (int i =0; i <numcells ; i++){
@@ -31,6 +35,7 @@ NumericBackend::NumericBackend(std::array<float, INPUTDIM> min, std::array<float
 
 
 void NumericBackend::setObservation(float observation[], int length){
+    this->observation.resize(length);
     for (int dim = 0; dim < length; dim++){
         this->observation[dim] = observation[dim];
     }
