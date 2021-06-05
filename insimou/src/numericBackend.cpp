@@ -35,22 +35,26 @@ NumericBackend::NumericBackend(std::vector<float> min,
 
 
 void NumericBackend::setObservation(float observation[], int length){
+    observationmtx.lock();
     this->observation.resize(length);
     for (int dim = 0; dim < length; dim++){
         this->observation[dim] = observation[dim];
     }
+    observationmtx.unlock();
 }
 
 void NumericBackend::coreloop(){
     //calling multiple times causes side effects
     
-    //only set when loop once through
+    //only set the last action when loop is once through
+    observationmtx.lock();
     if (lastmaxindex > -1){
-        lastaction = observation.at(lastmaxindex)* weight.at(lastmaxindex);
+        lastaction = observation.at(lastmaxindex)* weight.at(lastmaxindex);//action is det. by weight
     }
     
     //get activation of all input layer neurons
     auto activations = this->placecelllayer.activation(this->observation);
+    observationmtx.unlock();
     //lateral inhibition causes one hot encoding, find maximum
     lastmaxindex = int(std::distance(activations.begin(), std::max_element(activations.begin(), activations.end())));
     

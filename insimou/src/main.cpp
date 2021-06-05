@@ -184,11 +184,11 @@ void setinput_async(float observation[], int lenobs){
 
 void setinput(float observation[], int lenobs){
     //blocking
-    observation_dims = lenobs;
     observations.resize(lenobs);
     for (int i=0;i<lenobs;++i){
         observations[i] = observation[i];
     }
+    observation_dims = lenobs;
     getNumericBackend()->setObservation(observation,lenobs);
 }
 
@@ -205,7 +205,7 @@ float* getAction(){
 
 //std::array<float, INPUTDIM>
 float* getWeights(){
-    std::cout<< "GETWEIGHTS" <<std::endl;
+    //std::cout<< "GETWEIGHTS" <<std::endl;
     //cannot get the std::array object and get the pointer with data() here (local?)
     return getNumericBackend()->getWeights();
 }
@@ -219,6 +219,7 @@ int main ( int argc, char *argv[] ) {
     printstats();
     
     getAction();
+    setinput(obs, 4);
     getAction();
     getAction();
     //    //std::this_thread::sleep_for (std::chrono::milliseconds(5));

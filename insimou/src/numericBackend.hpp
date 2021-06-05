@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <array>
 #include <vector>
+#include <mutex>
 #include "PlaceCellLayer.hpp"
 #include "settings.h"
 
@@ -42,6 +43,7 @@ private:
     const float learningrate = 1;
     const float gvwmax = 2; //todoobtain from python settings
     PlaceCellLayer placecelllayer;
+    std::mutex observationmtx;
 };
 
 
