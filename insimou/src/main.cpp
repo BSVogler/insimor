@@ -185,7 +185,7 @@ void setinput_async(float observation[], int lenobs){
 void setinput(float observation[], int lenobs){
     //blocking
     observation_dims = lenobs;
-    observations = std::vector<float>(lenobs);
+    observations.resize(lenobs);
     for (int i=0;i<lenobs;++i){
         observations[i] = observation[i];
     }
