@@ -99,11 +99,13 @@ void *simulate_loop(){
         ++totalCycles;
         backend->coreloop();
     }
-    std::this_thread::sleep_for (std::chrono::milliseconds(1000));
+    //why sleep a second for exiting?
+    //std::this_thread::sleep_for (std::chrono::milliseconds(1000));
+    
+    //exit
     mtx.lock();
-    cout << "Simulation: "<< totalCycles<<endl;
     float duration = std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - begin_time ).count();
-    std::cout << totalCycles<<"cycles /"<<duration<<"us ="<< totalCycles/duration<<"cycles/us"<<endl;
+    std::cout << totalCycles<<" cycles / "<<duration/1000<<" ms = "<< totalCycles/duration<<" cycles/us"<<endl;
     mtx.unlock();
     pthread_exit(NULL);
 }
