@@ -8,15 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		2C0803D825EAF82A008A57D0 /* libpython3.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0803D725EAF82A008A57D0 /* libpython3.9.dylib */; };
-		2C1F862125A9DC97001CF6E9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F861D25A9DC97001CF6E9 /* main.cpp */; };
-		2C1F865225A9E767001CF6E9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F861D25A9DC97001CF6E9 /* main.cpp */; };
-		2CB515BF25FE5A1900E5EE70 /* PlaceCellLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CB515BD25FE5A1900E5EE70 /* PlaceCellLayer.cpp */; };
-		2CB515C025FE5A1900E5EE70 /* PlaceCellLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CB515BD25FE5A1900E5EE70 /* PlaceCellLayer.cpp */; };
-		2CB515C125FE5A1900E5EE70 /* PlaceCellLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2CB515BE25FE5A1900E5EE70 /* PlaceCellLayer.hpp */; };
-		2CB515C425FE61E400E5EE70 /* settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CB515C325FE61E400E5EE70 /* settings.h */; };
-		2CB87AA125B34B9700E69DF5 /* numericBackend.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2CB87A9F25B34B9700E69DF5 /* numericBackend.hpp */; };
-		2CB87AA225B34B9700E69DF5 /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */; };
-		2CB87AA325B34B9700E69DF5 /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */; };
+		2C24750A266BA781002EEBAC /* PlaceCellLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2C247508266BA781002EEBAC /* PlaceCellLayer.hpp */; };
+		2C24750B266BA781002EEBAC /* PlaceCellLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247509266BA781002EEBAC /* PlaceCellLayer.cpp */; };
+		2C24750C266BA781002EEBAC /* PlaceCellLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247509266BA781002EEBAC /* PlaceCellLayer.cpp */; };
+		2C24750E266BA78C002EEBAC /* settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C24750D266BA78C002EEBAC /* settings.h */; };
+		2C247511266BA795002EEBAC /* numericBackend.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2C24750F266BA795002EEBAC /* numericBackend.hpp */; };
+		2C247512266BA795002EEBAC /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247510266BA795002EEBAC /* numericBackend.cpp */; };
+		2C247513266BA795002EEBAC /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247510266BA795002EEBAC /* numericBackend.cpp */; };
+		2C247515266BA79F002EEBAC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247514266BA79F002EEBAC /* main.cpp */; };
+		2C247516266BA79F002EEBAC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247514266BA79F002EEBAC /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,17 +43,17 @@
 
 /* Begin PBXFileReference section */
 		2C0803D725EAF82A008A57D0 /* libpython3.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython3.9.dylib; path = "../../../../usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/lib/libpython3.9.dylib"; sourceTree = "<group>"; };
-		2C1F861D25A9DC97001CF6E9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = insimou_ext/main.cpp; sourceTree = SOURCE_ROOT; };
 		2C1F861E25A9DC97001CF6E9 /* setupextension.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = setupextension.py; path = insimou_ext/setupextension.py; sourceTree = SOURCE_ROOT; };
 		2C1F862025A9DC97001CF6E9 /* test.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = test.py; path = insimou_ext/test.py; sourceTree = SOURCE_ROOT; };
 		2C1F862625A9E560001CF6E9 /* insimou.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = insimou.entitlements; path = insimou_ext/insimou.entitlements; sourceTree = SOURCE_ROOT; };
 		2C1F864425A9E6C7001CF6E9 /* libinsimou.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libinsimou.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C247508266BA781002EEBAC /* PlaceCellLayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PlaceCellLayer.hpp; path = src/PlaceCellLayer.hpp; sourceTree = "<group>"; };
+		2C247509266BA781002EEBAC /* PlaceCellLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlaceCellLayer.cpp; path = src/PlaceCellLayer.cpp; sourceTree = "<group>"; };
+		2C24750D266BA78C002EEBAC /* settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = settings.h; path = src/settings.h; sourceTree = "<group>"; };
+		2C24750F266BA795002EEBAC /* numericBackend.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = numericBackend.hpp; path = src/numericBackend.hpp; sourceTree = "<group>"; };
+		2C247510266BA795002EEBAC /* numericBackend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = numericBackend.cpp; path = src/numericBackend.cpp; sourceTree = "<group>"; };
+		2C247514266BA79F002EEBAC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
 		2C70A67E2598AA7500E72C20 /* insimou_ext */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = insimou_ext; sourceTree = BUILT_PRODUCTS_DIR; };
-		2CB515BD25FE5A1900E5EE70 /* PlaceCellLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PlaceCellLayer.cpp; path = insimou/PlaceCellLayer.cpp; sourceTree = "<group>"; };
-		2CB515BE25FE5A1900E5EE70 /* PlaceCellLayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = PlaceCellLayer.hpp; path = insimou/PlaceCellLayer.hpp; sourceTree = "<group>"; };
-		2CB515C325FE61E400E5EE70 /* settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = settings.h; path = insimou/settings.h; sourceTree = "<group>"; };
-		2CB87A9F25B34B9700E69DF5 /* numericBackend.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = numericBackend.hpp; path = insimou_ext/numericBackend.hpp; sourceTree = SOURCE_ROOT; };
-		2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = numericBackend.cpp; path = insimou_ext/numericBackend.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,15 +96,15 @@
 		2C70A6802598AA7500E72C20 /* insimou */ = {
 			isa = PBXGroup;
 			children = (
-				2CB87AA025B34B9700E69DF5 /* numericBackend.cpp */,
-				2CB87A9F25B34B9700E69DF5 /* numericBackend.hpp */,
+				2C247510266BA795002EEBAC /* numericBackend.cpp */,
 				2C1F862625A9E560001CF6E9 /* insimou.entitlements */,
-				2C1F861D25A9DC97001CF6E9 /* main.cpp */,
+				2C247514266BA79F002EEBAC /* main.cpp */,
 				2C1F861E25A9DC97001CF6E9 /* setupextension.py */,
 				2C1F862025A9DC97001CF6E9 /* test.py */,
-				2CB515BD25FE5A1900E5EE70 /* PlaceCellLayer.cpp */,
-				2CB515BE25FE5A1900E5EE70 /* PlaceCellLayer.hpp */,
-				2CB515C325FE61E400E5EE70 /* settings.h */,
+				2C247509266BA781002EEBAC /* PlaceCellLayer.cpp */,
+				2C24750F266BA795002EEBAC /* numericBackend.hpp */,
+				2C247508266BA781002EEBAC /* PlaceCellLayer.hpp */,
+				2C24750D266BA78C002EEBAC /* settings.h */,
 			);
 			path = insimou;
 			sourceTree = "<group>";
@@ -124,9 +124,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB515C425FE61E400E5EE70 /* settings.h in Headers */,
-				2CB515C125FE5A1900E5EE70 /* PlaceCellLayer.hpp in Headers */,
-				2CB87AA125B34B9700E69DF5 /* numericBackend.hpp in Headers */,
+				2C24750E266BA78C002EEBAC /* settings.h in Headers */,
+				2C24750A266BA781002EEBAC /* PlaceCellLayer.hpp in Headers */,
+				2C247511266BA795002EEBAC /* numericBackend.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,9 +208,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB87AA325B34B9700E69DF5 /* numericBackend.cpp in Sources */,
-				2CB515C025FE5A1900E5EE70 /* PlaceCellLayer.cpp in Sources */,
-				2C1F865225A9E767001CF6E9 /* main.cpp in Sources */,
+				2C24750C266BA781002EEBAC /* PlaceCellLayer.cpp in Sources */,
+				2C247513266BA795002EEBAC /* numericBackend.cpp in Sources */,
+				2C247516266BA79F002EEBAC /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,9 +218,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB87AA225B34B9700E69DF5 /* numericBackend.cpp in Sources */,
-				2CB515BF25FE5A1900E5EE70 /* PlaceCellLayer.cpp in Sources */,
-				2C1F862125A9DC97001CF6E9 /* main.cpp in Sources */,
+				2C24750B266BA781002EEBAC /* PlaceCellLayer.cpp in Sources */,
+				2C247512266BA795002EEBAC /* numericBackend.cpp in Sources */,
+				2C247515266BA79F002EEBAC /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
