@@ -192,6 +192,12 @@ void setinput(float observation[], int lenobs){
     getNumericBackend()->setObservation(observation,lenobs);
 }
 
+//this function sets the activation directly, when it is computed in python. Faster to set the input via setinput.
+void setactivations(float activation[], int lenactivation){
+    //blocking
+   
+}
+
 void give_reward(float reward){
     feedback = reward;
     if (NUM_THREADS <= 1){

@@ -24,6 +24,7 @@ class NumericBackend {
 public:
     //static NumericBackend* inst();
     void setObservation(float observation[], int length);
+    void setActivation(float activations[], int length);
     void coreloop();
     void setFeedback(float errsig);
     float* getWeights();
@@ -35,6 +36,7 @@ protected:
     NumericBackend ( const NumericBackend& );//prevent copy constructor
 private:
     std::vector<float> observation;
+    std::vector<float> activations;
     std::vector<float> action;
     std::vector<float> weight;
     int lastmaxindex = 0;
@@ -44,6 +46,8 @@ private:
     const float gvwmax = 2; //todoobtain from python settings
     PlaceCellLayer placecelllayer;
     std::mutex observationmtx;
+    bool activationdirty; //dirty flag to indicate changes in the analog signal (frame)
+    bool activationset;
 };
 
 
