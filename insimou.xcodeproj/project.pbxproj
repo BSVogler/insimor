@@ -97,12 +97,12 @@
 			isa = PBXGroup;
 			children = (
 				2C247510266BA795002EEBAC /* numericBackend.cpp */,
+				2C24750F266BA795002EEBAC /* numericBackend.hpp */,
 				2C1F862625A9E560001CF6E9 /* insimou.entitlements */,
 				2C247514266BA79F002EEBAC /* main.cpp */,
 				2C1F861E25A9DC97001CF6E9 /* setupextension.py */,
 				2C1F862025A9DC97001CF6E9 /* test.py */,
 				2C247509266BA781002EEBAC /* PlaceCellLayer.cpp */,
-				2C24750F266BA795002EEBAC /* numericBackend.hpp */,
 				2C247508266BA781002EEBAC /* PlaceCellLayer.hpp */,
 				2C24750D266BA78C002EEBAC /* settings.h */,
 			);

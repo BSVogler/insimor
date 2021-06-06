@@ -54,11 +54,12 @@ int PlaceCellLayer::numCells(){
     return numPos;
 }
 
-/*return activation per neuron by calcualting the distance to the observation  in input space*/
+/*return activation per neuron by calcualting the distance to the observation in input space. Analog in, analog out hence static during one input frame.*/
 std::vector<float> PlaceCellLayer::activation(position observation){
     auto scaleddistance = std::vector<float>();
     scaleddistance.reserve(numPos);
     float distancesum = 0;
+    //todo step 3
     if (false and vq_learning_scale > 0){
         // changes every time, so cannot be cached
 //        auto rezsigma = this->sigmafactor / this->distance_pc;
@@ -68,7 +69,7 @@ std::vector<float> PlaceCellLayer::activation(position observation){
     } else {
         //use lp2 norm, weighted by dimensionality density
         int i=0;
-        //calcualte distance for each neuron in scaleddistance
+        //calculate distance for each neuron in scaleddistance
         for (auto neuron : this->positions){
             ++i;
             // calculate norm(observation-dim), why L2 norm
