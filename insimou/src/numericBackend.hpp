@@ -47,7 +47,7 @@ private:
     PlaceCellLayer placecelllayer;
     std::mutex observationmtx;
     bool activationdirty; //dirty flag to indicate changes in the analog signal (frame)
-    bool activationset;
+    bool observationdirty;
 };
 
 

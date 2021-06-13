@@ -17,7 +17,7 @@ NumericBackend::NumericBackend(std::vector<float> min,
     placecelllayer(min, max, res),
     lastmaxindex(-1),
     activationdirty(true),
-    activationset(false)
+    observationdirty(false)
 {
     std::random_device rd;
     
@@ -35,6 +35,7 @@ NumericBackend::NumericBackend(std::vector<float> min,
         float b = dist(e2);
         weight.push_back(b);
     }
+    
 }
 
 
@@ -44,7 +45,7 @@ void NumericBackend::setObservation(float observation[], int length){
     for (int dim = 0; dim < length; dim++){
         this->observation[dim] = observation[dim];
     }
-    this->activationdirty = true;
+    this->observationdirty = true;
     observationmtx.unlock();
 }
 
@@ -55,6 +56,7 @@ void NumericBackend::setActivation(float activations[], int length){
         this->activations[dim] = activations[dim];
     }
     this->activationdirty = true;
+    std::cout<<"dirty1 "<<this<<std::endl;
     observationmtx.unlock();
 }
 
@@ -62,14 +64,14 @@ void NumericBackend::coreloop(){
     //calling multiple times causes side effects
     
     //only set the last action when loop is once through
-    if (this->activationdirty) {
-        observationmtx.lock();
+    std::cout<<"dirty2 "<<this<<std::endl;
+    observationmtx.lock();
+    if (this->activationdirty || this->observationdirty) {
         std::vector<float> activations;
-        if (activationset){
+        //either the activation was set directly or we need to compute it
+        if (this->activationdirty){
             activations = this->activations;
-            activationset = false;
         } else {
-            
             //todo cache until dirty
             if (lastmaxindex > -1){
                 lastaction = observation.at(lastmaxindex)* weight.at(lastmaxindex);//action is det. by weight
@@ -77,22 +79,30 @@ void NumericBackend::coreloop(){
             
             //get activation of all input layer neurons
             //using this->activations will cause a segfault, using move semantics
-            auto activations = this->placecelllayer.activation(this->observation);
+            activations = this->placecelllayer.activation(this->observation);
         }
         observationmtx.unlock();
         //core
         //lateral inhibition causes one hot encoding, find maximum
         lastmaxindex = int(std::distance(activations.begin(), std::max_element(activations.begin(), activations.end())));
+        std::cout<<"lastmaxindey "<<lastmaxindex<<std::endl;
         this->lastactivation = this->weight[lastmaxindex];
         
         //todo only works on pole balancing
         //rate should only be a scalar value
         this->action[0] = int(copysign(1.0, (float)(this->lastactivation)) == 1); // 0 or 1
         activationdirty = false;
+    } else {
+//std::cout<<"waiting "<<std::endl;
+        observationmtx.unlock();
+        
+        //no new input so chill ab it before checking again
+        //will only get new input once in a while so sleep a little bit
+        //this is called spinning with blocking, it is better to use threading //http://www.albahari.com/threading/part2.aspx#_Signaling_with_Event_Wait_Handles
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(3));
     }
-    //will only get new input once in a while so sleep a little bit
-    //this is called spinning with blocking, it is better to use threading //http://www.albahari.com/threading/part2.aspx#_Signaling_with_Event_Wait_Handles
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
 }
 
 void NumericBackend::setFeedback(float errsig){
