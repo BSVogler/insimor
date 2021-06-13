@@ -195,7 +195,7 @@ void setinput(float observation[], int lenobs){
 //this function sets the activation directly, when it is computed in python. Faster to set the input via setinput.
 void setactivations(float activation[], int lenactivation){
     //blocking
-   
+    getNumericBackend()->setActivation(activation, lenactivation);
 }
 
 void give_reward(float reward){
