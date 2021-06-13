@@ -56,7 +56,6 @@ void NumericBackend::setActivation(float activations[], int length){
         this->activations[dim] = activations[dim];
     }
     this->activationdirty = true;
-    std::cout<<"dirty1 "<<this<<std::endl;
     observationmtx.unlock();
 }
 
@@ -64,7 +63,6 @@ void NumericBackend::coreloop(){
     //calling multiple times causes side effects
     
     //only set the last action when loop is once through
-    std::cout<<"dirty2 "<<this<<std::endl;
     observationmtx.lock();
     if (this->activationdirty || this->observationdirty) {
         std::vector<float> activations;
@@ -85,7 +83,7 @@ void NumericBackend::coreloop(){
         //core
         //lateral inhibition causes one hot encoding, find maximum
         lastmaxindex = int(std::distance(activations.begin(), std::max_element(activations.begin(), activations.end())));
-        std::cout<<"lastmaxindey "<<lastmaxindex<<std::endl;
+        //std::cout<<"lastmaxindey "<<lastmaxindex<<std::endl;
         this->lastactivation = this->weight[lastmaxindex];
         
         //todo only works on pole balancing
@@ -100,7 +98,7 @@ void NumericBackend::coreloop(){
         //will only get new input once in a while so sleep a little bit
         //this is called spinning with blocking, it is better to use threading //http://www.albahari.com/threading/part2.aspx#_Signaling_with_Event_Wait_Handles
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(3));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(3));
     }
 
 }

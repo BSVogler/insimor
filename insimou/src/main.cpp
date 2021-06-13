@@ -77,6 +77,7 @@ void *PrintHello(void *threadarg) {
 //it is somehow nto possible to put this into the public namespace of the class
 static NumericBackend* getNumericBackend(){
     //lazy constructor
+    mtx.lock();
    if (backend == 0){
        //todo get values from python
        float arr[] = {-2.4,-3,-0.209,-4};
@@ -88,6 +89,7 @@ static NumericBackend* getNumericBackend(){
        std::vector<int> num_neurons_dim(arr_num, arr_num + sizeof(arr_num)/sizeof(float));
        backend = new NumericBackend(min, max, num_neurons_dim);
    }
+    mtx.unlock();
    return backend;
 }
 
