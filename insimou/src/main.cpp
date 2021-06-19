@@ -56,6 +56,13 @@ float neuronoutput[OUTPUTDIM] = {0};//todo initialize when back-end has returned
 float analogsignal = {0};
 std::chrono::high_resolution_clock::time_point begin_time;
 std::mutex mtx;
+std::mutex newinputlock;
+enum CompStatut{
+    TOCOMP=0,
+    DOING=1,
+    DONE=2
+};
+short dirty=0;
 
 struct thread_data {
     int  thread_id;
@@ -99,7 +106,16 @@ void *simulate_loop(){
     auto backend = getNumericBackend();
     while(!shared_exitflag){
         ++totalCycles;
+        if (dirty==TOCOMP) {
+            newinputlock.try_lock();
+            dirty=DOING;
+        }
         backend->coreloop();
+        if (dirty==DOING){//new input could overwrite this, we need a queue
+            dirty=DONE;
+            newinputlock.unlock();
+        }
+            
     }
     //why sleep a second for exiting?
     //std::this_thread::sleep_for (std::chrono::milliseconds(1000));
@@ -192,6 +208,7 @@ void setinput(float observation[], int lenobs){
     }
     observation_dims = lenobs;
     getNumericBackend()->setObservation(observation,lenobs);
+    dirty = TOCOMP;
 }
 
 //this function sets the activation directly, when it is computed in python. Faster to set the input via setinput.
@@ -208,7 +225,13 @@ void give_reward(float reward){
 }
 
 float* getAction(){
-    return getNumericBackend()->getActions();
+    if (dirty!=DONE){
+        newinputlock.lock();
+    }
+    auto actions = getNumericBackend()->getActions();
+    newinputlock.unlock();
+    return actions;
+
 }
 
 //std::array<float, INPUTDIM>
