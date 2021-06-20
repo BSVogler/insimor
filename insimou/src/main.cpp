@@ -45,6 +45,8 @@ extern "C" {
 using namespace std;
 
 #define NUM_THREADS 1
+long totalCycles = 0;
+float duration=1;
 std::thread* threads[NUM_THREADS];
 bool running = false;
 NumericBackend* backend = nullptr;
@@ -102,7 +104,7 @@ static NumericBackend* getNumericBackend(){
 
 
 void *simulate_loop(){
-    long totalCycles = 0;
+    totalCycles = 0;
     auto backend = getNumericBackend();
     while(!shared_exitflag){
         ++totalCycles;
@@ -120,10 +122,9 @@ void *simulate_loop(){
     //why sleep a second for exiting?
     //std::this_thread::sleep_for (std::chrono::milliseconds(1000));
     
-    //exit
+    //exit, why is the mutex needed here?
     mtx.lock();
-    float duration = std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - begin_time ).count();
-    std::cout << totalCycles<<" cycles / "<<duration/1000<<" ms = "<< totalCycles/duration<<" cycles/us"<<endl;
+    duration = std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - begin_time ).count();
     mtx.unlock();
     pthread_exit(NULL);
 }
@@ -165,6 +166,8 @@ void start_sync(){
 }
 
 void printstats(){
+    std::cout << totalCycles<<" cycles / "<<duration/1000<<" ms = "<< totalCycles/duration<<" cycles/us"<<endl;
+    
     //print the observations. Test function for developers.
     cout << "Observations: ";
     for (int i=0; i < observations.size(); ++i) {
@@ -184,7 +187,6 @@ void stop(){
         for( int i = 0; i < NUM_THREADS; ++i ) {
             threads[i]->join();
         }
-        printstats();
         if (mainthread != nullptr){
             mainthread->join();
         }
