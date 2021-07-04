@@ -45,9 +45,9 @@ private:
     const float learningrate = 1;
     const float gvwmax = 2; //todoobtain from python settings
     PlaceCellLayer placecelllayer;
-    std::mutex observationmtx;
+    std::mutex observationmtx;//prevent simultaneous accessing and computing of weights or observations
     bool activationdirty; //dirty flag to indicate changes in the analog signal (frame)
-    bool observationdirty;
+    short observationdirty;//todo=0, doing=1, done=2
 };
 
 

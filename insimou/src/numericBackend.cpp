@@ -45,7 +45,7 @@ void NumericBackend::setObservation(float observation[], int length){
     for (int dim = 0; dim < length; dim++){
         this->observation[dim] = observation[dim];
     }
-    this->observationdirty = true;
+    this->observationdirty = 0;
     observationmtx.unlock();
 }
 
@@ -63,8 +63,9 @@ void NumericBackend::coreloop(){
     //calling multiple times causes side effects
     
     //only set the last action when loop is once through
-    observationmtx.lock();
-    if (this->activationdirty || this->observationdirty) {
+    if (this->activationdirty || this->observationdirty==0) {
+        observationdirty=1;
+        observationmtx.lock();
         std::vector<float> activations;
         //either the activation was set directly or we need to compute it
         if (this->activationdirty){
@@ -79,7 +80,8 @@ void NumericBackend::coreloop(){
             //using this->activations will cause a segfault, using move semantics
             activations = this->placecelllayer.activation(this->observation);
         }
-        observationmtx.unlock();
+        //observationmtx.unlock();
+        
         //core
         //lateral inhibition causes one hot encoding, find maximum
         lastmaxindex = int(std::distance(activations.begin(), std::max_element(activations.begin(), activations.end())));
@@ -90,9 +92,11 @@ void NumericBackend::coreloop(){
         //rate should only be a scalar value
         this->action[0] = int(copysign(1.0, (float)(this->lastactivation)) == 1); // 0 or 1
         activationdirty = false;
+        observationdirty=2;
+        observationmtx.unlock();
     } else {
 //std::cout<<"waiting "<<std::endl;
-        observationmtx.unlock();
+//observationmtx.unlock();
         
         //no new input so chill ab it before checking again
         //will only get new input once in a while so sleep a little bit
@@ -105,19 +109,41 @@ void NumericBackend::coreloop(){
 
 void NumericBackend::setFeedback(float errsig){
     //update by adding the error
-    if (lastmaxindex>0){
-        auto neww = weight.at(lastmaxindex)+float(copysign(1.0, (float)(lastaction)) * errsig * learningrate);
-        //limit
+    if (lastmaxindex > -1){
+        //only one place cell is active
+        auto delta = float(copysign(1.0, (float)(lastaction)) * errsig * learningrate);
+        auto neww = weight.at(lastmaxindex) + delta;
+        //clip
         neww = std::max(-gvwmax, std::min(neww, gvwmax));
         weight.at(lastmaxindex) = neww;
     }
 }
 
 float* NumericBackend::getWeights(){
-    return weight.data();
+//    float sum = 0;
+//    for (auto& n : weight)
+//        sum += n;
+//    std::cout<<sum<<std::endl;
+//    for (int i=0;i<5;i++)
+//        std::cout<<weight[i]<<",";
+//    std::cout<<std::endl;
+    
+    //wait here till have cleaned data
+    if (observationdirty!=3){
+        observationmtx.lock();
+    }
+    auto returnres = weight.data();
+    observationmtx.unlock();
+    return returnres;
+    
 }
 
 float* NumericBackend::getActions(){
-    //todo block here until other thread is ready
-    return action.data();
+    //wait here till have cleaned data
+    if (observationdirty!=3){
+        observationmtx.lock();
+    }
+    auto returnres = action.data();
+    observationmtx.unlock();
+    return returnres;
 }
