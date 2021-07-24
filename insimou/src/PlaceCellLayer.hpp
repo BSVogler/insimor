@@ -16,18 +16,18 @@
 #include <math.h>
 
 
-using position = std::vector<float>;
+using position = std::vector<double>;
 class PlaceCellLayer {
 private:
     int numPos;
     std::vector<position> positions;
-    std::vector<float> distance_pc;//distance of this place cells along this dimension  when initialized
+    std::vector<double> distance_pc;//distance of this place cells along this dimension  when initialized
     double vq_decay = 1;
     float sigmafactor = 1;
-    void vector_quantization(std::vector<float> observation, std::vector<float> dist2);
+    void vector_quantization(std::vector<double> observation, std::vector<double> dist2);
 public:
-    PlaceCellLayer(std::vector<float> min, std::vector<float> max, std::vector<int> res);
-    std::vector<float> activation(std::vector<float> observation);
+    PlaceCellLayer(std::vector<double> min, std::vector<double> max, std::vector<int> res);
+    std::vector<double> activation(std::vector<double> observation);
     int numCells();
 };
 

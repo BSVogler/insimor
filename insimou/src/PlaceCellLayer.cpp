@@ -11,8 +11,8 @@
 #include <iostream>
 //using position = std::vector<float>;
 
-PlaceCellLayer::PlaceCellLayer(std::vector<float> min,
-                               std::vector<float> max,
+PlaceCellLayer::PlaceCellLayer(std::vector<double> min,
+                               std::vector<double> max,
                                std::vector<int> res) :
                                 distance_pc(min.size())
 {
@@ -55,10 +55,10 @@ int PlaceCellLayer::numCells(){
 }
 
 /*return activation per neuron by calcualting the distance to the observation in input space. Analog in, analog out hence static during one input frame.*/
-std::vector<float> PlaceCellLayer::activation(position observation){
-    auto scaleddistance = std::vector<float>();
+std::vector<double> PlaceCellLayer::activation(position observation){
+    auto scaleddistance = std::vector<double>();
     scaleddistance.reserve(numPos);
-    float distancesum = 0;
+    double distancesum = 0;
     //todo step 3
     if (false and vq_learning_scale > 0){
         // changes every time, so cannot be cached
@@ -73,9 +73,9 @@ std::vector<float> PlaceCellLayer::activation(position observation){
         for (auto neuron : this->positions){
             ++i;
             // calculate norm(observation-dim), why L2 norm
-            float norm = 0;
+            double norm = 0;
             for (int dim=0; dim < INPUTDIM; ++dim){
-                float dist =float(neuron[dim] - observation[dim]) / this->distance_pc[dim];
+                double dist = double(neuron[dim] - observation[dim]) / this->distance_pc[dim];
                 norm += dist*dist;
             }
             //std::cout <<"n("<<i<<"): "<<norm<<std::endl;
@@ -96,7 +96,7 @@ std::vector<float> PlaceCellLayer::activation(position observation){
 }
 
 
-void PlaceCellLayer::vector_quantization(position observation, std::vector<float> dist2) {
+void PlaceCellLayer::vector_quantization(position observation, std::vector<double> dist2) {
     // exponentially decrease strength of vq
     this->vq_decay *= 1 - this->vq_decay;
     //changeamount = vq_learning_scale * np.exp(-dist2 / self.vq_decay)

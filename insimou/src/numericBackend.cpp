@@ -11,8 +11,8 @@
 #include <thread>
 #include <chrono>
 
-NumericBackend::NumericBackend(std::vector<float> min,
-                               std::vector<float> max,
+NumericBackend::NumericBackend(std::vector<double> min,
+                               std::vector<double> max,
                                std::vector<int> res):
     placecelllayer(min, max, res),
     lastmaxindex(-1),
@@ -32,14 +32,27 @@ NumericBackend::NumericBackend(std::vector<float> min,
     weight.reserve(numcells);
     std::cout <<"NUM WEIGHTS: "<<numcells <<std::endl;
     for (int i =0; i <numcells ; i++){
-        float b = dist(e2);
+        auto b = dist(e2);
         weight.push_back(b);
     }
-    
+}
+
+void NumericBackend::setWeights(double weights[]){
+    //assume incoming vector has same length as num cells
+    observationmtx.lock();
+    for (int i = 0; i < this->weight.size(); i++){
+        this->weight[i] = weights[i];
+    }
+    std::cout<<"set weights"<<std::endl;
+    for (int i = 0; i < this->weight.size(); i++){
+        std::cout << weight[i] << ",";
+    }
+    std::cout << std::endl;
+    observationmtx.unlock();
 }
 
 
-void NumericBackend::setObservation(float observation[], int length){
+void NumericBackend::setObservation(double observation[], int length){
     observationmtx.lock();
     this->observation.resize(length);
     for (int dim = 0; dim < length; dim++){
@@ -49,7 +62,7 @@ void NumericBackend::setObservation(float observation[], int length){
     observationmtx.unlock();
 }
 
-void NumericBackend::setActivation(float activations[], int length){
+void NumericBackend::setActivation(double activations[], int length){
     observationmtx.lock();
     this->activations.resize(length);
     for (int dim = 0; dim < length; dim++){
@@ -66,7 +79,7 @@ void NumericBackend::coreloop(){
     if (this->activationdirty || this->observationdirty==0) {
         observationdirty=1;
         observationmtx.lock();
-        std::vector<float> activations;
+        std::vector<double> activations;
         //either the activation was set directly or we need to compute it
         if (this->activationdirty){
             activations = this->activations;
@@ -86,11 +99,9 @@ void NumericBackend::coreloop(){
         //lateral inhibition causes one hot encoding, find maximum
         lastmaxindex = int(std::distance(activations.begin(), std::max_element(activations.begin(), activations.end())));
         //std::cout<<"lastmaxindey "<<lastmaxindex<<std::endl;
-        this->lastactivation = this->weight[lastmaxindex];
-        
         //todo only works on pole balancing
         //rate should only be a scalar value
-        this->action[0] = int(copysign(1.0, (float)(this->lastactivation)) == 1); // 0 or 1
+        this->action[0] = int(copysign(1.0, this->weight[lastmaxindex]) == 1); // 0 or 1
         activationdirty = false;
         observationdirty=2;
         observationmtx.unlock();
@@ -107,19 +118,21 @@ void NumericBackend::coreloop(){
 
 }
 
-void NumericBackend::setFeedback(float errsig){
+void NumericBackend::setFeedback(double errsig){
     //update by adding the error
     if (lastmaxindex > -1){
         //only one place cell is active
-        auto delta = float(copysign(1.0, (float)(lastaction)) * errsig * learningrate);
+        auto delta = double(copysign(1.0, (double)(lastaction)) * errsig * learningrate);
         auto neww = weight.at(lastmaxindex) + delta;
+    std::cout << delta;
         //clip
         neww = std::max(-gvwmax, std::min(neww, gvwmax));
         weight.at(lastmaxindex) = neww;
+        //std::cout << delta<<std::endl;
     }
 }
 
-float* NumericBackend::getWeights(){
+double* NumericBackend::getWeights(){
 //    float sum = 0;
 //    for (auto& n : weight)
 //        sum += n;

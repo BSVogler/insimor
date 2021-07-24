@@ -23,27 +23,27 @@ class PlaceCellLayer;
 class NumericBackend {
 public:
     //static NumericBackend* inst();
-    void setObservation(float observation[], int length);
-    void setActivation(float activations[], int length);
+    void setObservation(double observation[], int length);
+    void setActivation(double activations[], int length);
+    void setWeights(double weights[]);
     void coreloop();
-    void setFeedback(float errsig);
-    float* getWeights();
+    void setFeedback(double errsig);
+    double* getWeights();
     float* getActions();
     //this should be private and protected
 
-    NumericBackend(std::vector<float> min, std::vector<float> max, std::vector<int> res);
+    NumericBackend(std::vector<double> min, std::vector<double> max, std::vector<int> res);
 protected:
     NumericBackend ( const NumericBackend& );//prevent copy constructor
 private:
-    std::vector<float> observation;
-    std::vector<float> activations;
-    std::vector<float> action;
-    std::vector<float> weight;
+    std::vector<double> observation;
+    std::vector<double> activations;//computed or set actions
+    std::vector<float> action;//computed action
+    std::vector<double> weight;
     int lastmaxindex = 0;
-    float lastactivation = 0;
     int lastaction = 0;
     const float learningrate = 1;
-    const float gvwmax = 2; //todoobtain from python settings
+    const double gvwmax = 2; //todoobtain from python settings
     PlaceCellLayer placecelllayer;
     std::mutex observationmtx;//prevent simultaneous accessing and computing of weights or observations
     bool activationdirty; //dirty flag to indicate changes in the analog signal (frame)

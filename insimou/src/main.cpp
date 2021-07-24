@@ -53,9 +53,9 @@ NumericBackend* backend = nullptr;
 bool shared_exitflag = false;
 int observation_dims = 4;
 float feedback = 0;
-std::vector<float> observations;
-float neuronoutput[OUTPUTDIM] = {0};//todo initialize when back-end has returned firstoutput
-float analogsignal = {0};
+std::vector<double> observations;
+double neuronoutput[OUTPUTDIM] = {0};//todo initialize when back-end has returned firstoutput
+double analogsignal = {0};
 std::chrono::high_resolution_clock::time_point begin_time;
 std::mutex mtx;
 std::mutex newinputlock;
@@ -89,13 +89,13 @@ static NumericBackend* getNumericBackend(){
     mtx.lock();
    if (backend == 0){
        //todo get values from python
-       float arr[] = {-2.4,-3,-0.209,-4};
+       double arr[] = {-2.4,-3,-0.209,-4};
        // Initialize vector with a string array
-       std::vector<float>  min(arr, arr + sizeof(arr)/sizeof(float));
-       float arr_max[] = {2.4,3,0.209,4};
-       std::vector<float>  max(arr_max, arr_max + sizeof(arr_max)/sizeof(float));
-       float arr_num[] = {7,7,15,15};
-       std::vector<int> num_neurons_dim(arr_num, arr_num + sizeof(arr_num)/sizeof(float));
+       std::vector<double>  min(arr, arr + sizeof(arr)/sizeof(double));
+       double arr_max[] = {2.4,3,0.209,4};
+       std::vector<double>  max(arr_max, arr_max + sizeof(arr_max)/sizeof(double));
+       double arr_num[] = {7,7,15,15};
+       std::vector<int> num_neurons_dim(arr_num, arr_num + sizeof(arr_num)/sizeof(double));
        backend = new NumericBackend(min, max, num_neurons_dim);
    }
     mtx.unlock();
@@ -195,14 +195,14 @@ void stop(){
     }
 }
 
-void setinput_async(float observation[], int lenobs){
+void setinput_async(double observation[], int lenobs){
     //will return after spawning background thread
     //std::thread thread = std::thread(setinput_thread, observation, lenobs);
     //do not wait
     //thread.detach();
 }
 
-void setinput(float observation[], int lenobs){
+void setinput(double observation[], int lenobs){
     //blocking
     observations.resize(lenobs);
     for (int i=0;i<lenobs;++i){
@@ -213,15 +213,19 @@ void setinput(float observation[], int lenobs){
     dirty = TOCOMP;
 }
 
+void setWeights(double weights[]){
+    getNumericBackend()->setWeights(weights);
+}
+
 //this function sets the activation directly, when it is computed in python. Faster to set the input via setinput.
-void setactivations(float activation[], int lenactivation){
+void setactivations(double activation[], int lenactivation){
     //blocking
     getNumericBackend()->setActivation(activation, lenactivation);
 }
 
 void give_reward(float reward){
     feedback = reward;
-    if (NUM_THREADS <= 1){
+    if (NUM_THREADS <= 1){ //why only when limited to one thread?
         getNumericBackend()->setFeedback(feedback);
     }
 }
@@ -237,15 +241,14 @@ float* getAction(){
 }
 
 //std::array<float, INPUTDIM>
-float* getWeights(){
-    //std::cout<< "GETWEIGHTS" <<std::endl;
+double* getWeights(){
     //cannot get the std::array object and get the pointer with data() here (local?)
     return getNumericBackend()->getWeights();
 }
 
 int main ( int argc, char *argv[] ) {
     //std::this_thread::sleep_for (std::chrono::milliseconds(500));
-    float obs[4] = {3,100,4.4,12};
+    double obs[4] = {3,100,4.4,12};
     setinput(obs, 4);
     start_sync();
     usleep(200);
