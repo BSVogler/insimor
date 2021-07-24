@@ -94,7 +94,7 @@ static NumericBackend* getNumericBackend(){
        std::vector<double>  min(arr, arr + sizeof(arr)/sizeof(double));
        double arr_max[] = {2.4,3,0.209,4};
        std::vector<double>  max(arr_max, arr_max + sizeof(arr_max)/sizeof(double));
-       double arr_num[] = {7,7,15,15};
+       double arr_num[] = {5,5,7,7};
        std::vector<int> num_neurons_dim(arr_num, arr_num + sizeof(arr_num)/sizeof(double));
        backend = new NumericBackend(min, max, num_neurons_dim);
    }

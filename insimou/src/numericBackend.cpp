@@ -44,10 +44,10 @@ void NumericBackend::setWeights(double weights[]){
         this->weight[i] = weights[i];
     }
     std::cout<<"set weights"<<std::endl;
-    for (int i = 0; i < this->weight.size(); i++){
-        std::cout << weight[i] << ",";
-    }
-    std::cout << std::endl;
+//    for (int i = 0; i < this->weight.size(); i++){
+//        std::cout << i<<":" << weights[i] << ",";
+//    }
+//    std::cout << std::endl;
     observationmtx.unlock();
 }
 
