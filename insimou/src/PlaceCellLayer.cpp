@@ -59,30 +59,31 @@ std::vector<double> PlaceCellLayer::activation(position observation){
     auto scaleddistance = std::vector<double>();
     scaleddistance.reserve(numPos);
     double distancesum = 0;
-    //todo step 3
-    if (false and vq_learning_scale > 0){
-        // changes every time, so cannot be cached
+
+    // changes every time, so cannot be cached
 //        auto rezsigma = this->sigmafactor / this->distance_pc;
 //        auto dists2 = np.linalg.norm((this->positions - observation) * rezsigma, axis=1)** 2;
 //        input_activation = dists2;  // use average distance;
-        //this->vector_quantization(observation, dists2);
-    } else {
-        //use lp2 norm, weighted by dimensionality density
-        int i=0;
-        //calculate distance for each neuron in scaleddistance
-        for (auto neuron : this->positions){
-            ++i;
-            // calculate norm(observation-dim), why L2 norm
-            double norm = 0;
-            for (int dim=0; dim < INPUTDIM; ++dim){
-                double dist = double(neuron[dim] - observation[dim]) / this->distance_pc[dim];
-                norm += dist*dist;
-            }
-            //std::cout <<"n("<<i<<"): "<<norm<<std::endl;
-            norm =sqrt(norm);
-            scaleddistance.push_back(norm);
-            distancesum += norm;
+    //this->vector_quantization(observation, dists2);
+    //use lp2 norm, weighted by dimensionality density
+    //calculate distance for each neuron in scaleddistance
+    auto dist2 = std::vector<std::array<double, INPUTDIM>>();
+    dist2.reserve(this->positions.size());
+    int neuron_num = 0;
+    for (auto neuron : this->positions){
+        // calculate ||observation-neuron||_2, why L2 norm?
+        dist2[neuron_num] = std::array<double, INPUTDIM>();
+        double norm = 0;
+        for (int dim=0; dim < INPUTDIM; ++dim){
+            double dist = double(neuron[dim] - observation[dim]) / this->distance_pc[dim];
+            dist2[neuron_num][dim] =dist*dist;
+            norm += dist*dist;
         }
+        //std::cout <<"n("<<i<<"): "<<norm<<std::endl;
+        norm =sqrt(norm);
+        scaleddistance.push_back(norm);
+        distancesum += norm;
+        neuron_num++;
     }
     //normalize and exp so that near neurons are exponentialyl weighted more
 //    std::cout <<"sum scaleddistance "<<distancesum<<std::endl;
@@ -91,16 +92,25 @@ std::vector<double> PlaceCellLayer::activation(position observation){
         neurondist = exp(-neurondist / distancesum);
     }
     //std::cout<<std::endl;
-    
+    if (vq_learning_scale > 0){
+        vector_quantization(observation, dist2);
+    }
     return scaleddistance;
 }
 
 
-void PlaceCellLayer::vector_quantization(position observation, std::vector<double> dist2) {
+void PlaceCellLayer::vector_quantization(position observation, std::vector<std::array<double, INPUTDIM>> dist2) {
     // exponentially decrease strength of vq
     this->vq_decay *= 1 - this->vq_decay;
-    //changeamount = vq_learning_scale * np.exp(-dist2 / self.vq_decay)
-//    self.positions += (observation - self.positions) * changeamount[:, np.newaxis]
-    
+    int i = 0;
+    for (auto d: dist2){
+        for (int dim=0; dim < INPUTDIM; ++dim){
+            auto change_amount = vq_learning_scale*exp(-d[dim]/this->vq_decay);
+            double delta = (observation[dim] - this->positions[i][dim]) * change_amount;
+            this->positions[i][dim] += delta;
+        }
+        i++;
+    }
 }
+
 
