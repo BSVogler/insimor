@@ -47,7 +47,7 @@ private:
     PlaceCellLayer placecelllayer;
     std::mutex observationmtx;//prevent simultaneous accessing and computing of weights or observations
     bool activationdirty; //dirty flag to indicate changes in the analog signal (frame)
-    short observationdirty;//todo=0, doing=1, done=2
+    short observationdirty;//todo=1, doing=2, done=0
 };
 
 

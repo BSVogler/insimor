@@ -17,7 +17,7 @@ NumericBackend::NumericBackend(std::vector<double> min,
     placecelllayer(min, max, res),
     lastmaxindex(-1),
     activationdirty(true),
-    observationdirty(false)
+    observationdirty(1)
 {
     std::random_device rd;
     
@@ -58,11 +58,12 @@ void NumericBackend::setObservation(double observation[], int length){
     for (int dim = 0; dim < length; dim++){
         this->observation[dim] = observation[dim];
     }
-    this->observationdirty = 0;
+    this->observationdirty = 1;
     observationmtx.unlock();
 }
 
 void NumericBackend::setActivation(double activations[], int length){
+    //just a setter function
     observationmtx.lock();
     this->activations.resize(length);
     for (int dim = 0; dim < length; dim++){
@@ -76,8 +77,8 @@ void NumericBackend::coreloop(){
     //calling multiple times causes side effects
     
     //only set the last action when loop is once through
-    if (this->activationdirty || this->observationdirty==0) {
-        observationdirty=1;
+    if (this->activationdirty || this->observationdirty==1) {
+        observationdirty=2;
         observationmtx.lock();
         std::vector<double> activations;
         //either the activation was set directly or we need to compute it
@@ -103,7 +104,7 @@ void NumericBackend::coreloop(){
         //rate should only be a scalar value
         this->action[0] = int(copysign(1.0, this->weight[lastmaxindex]) == 1); // 0 or 1
         activationdirty = false;
-        observationdirty=2;
+        observationdirty=0;
         observationmtx.unlock();
     } else {
 //std::cout<<"waiting "<<std::endl;
@@ -124,7 +125,7 @@ void NumericBackend::setFeedback(double errsig){
         //only one place cell is active
         auto delta = double(copysign(1.0, (double)(lastaction)) * errsig * learningrate);
         auto neww = weight.at(lastmaxindex) + delta;
-    std::cout << delta;
+        //std::cout << delta;
         //clip
         neww = std::max(-gvwmax, std::min(neww, gvwmax));
         weight.at(lastmaxindex) = neww;
@@ -142,7 +143,7 @@ double* NumericBackend::getWeights(){
 //    std::cout<<std::endl;
     
     //wait here till have cleaned data
-    if (observationdirty!=3){
+    if (observationdirty!=0){
         observationmtx.lock();
     }
     auto returnres = weight.data();
@@ -153,7 +154,7 @@ double* NumericBackend::getWeights(){
 
 float* NumericBackend::getActions(){
     //wait here till have cleaned data
-    if (observationdirty!=3){
+    if (observationdirty!=0){
         observationmtx.lock();
     }
     auto returnres = action.data();
