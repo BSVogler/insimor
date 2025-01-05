@@ -35,6 +35,7 @@ NumericBackend::NumericBackend(std::vector<double> min,
         auto b = dist(e2);
         weight.push_back(b);
     }
+    outputs.resize(numcells);
 }
 
 void NumericBackend::setWeights(double weights[]){
@@ -70,6 +71,7 @@ void NumericBackend::setActivation(double activations[], int length){
         this->activations[dim] = activations[dim];
     }
     this->activationdirty = true;
+    //std::cout<<"setactivation"<<std::endl;
     observationmtx.unlock();
 }
 
@@ -99,7 +101,7 @@ void NumericBackend::coreloop(){
         //core
         //lateral inhibition causes one hot encoding, find maximum
         lastmaxindex = int(std::distance(activations.begin(), std::max_element(activations.begin(), activations.end())));
-        //std::cout<<"lastmaxindey "<<lastmaxindex<<std::endl;
+        //std::cout<<"lastmaxindex "<<lastmaxindex<<std::endl;
         //todo only works on pole balancing
         //rate should only be a scalar value
         this->action[0] = int(copysign(1.0, this->weight[lastmaxindex]) == 1); // 0 or 1
@@ -150,6 +152,22 @@ double* NumericBackend::getWeights(){
     observationmtx.unlock();
     return returnres;
     
+}
+
+double* NumericBackend::getOutputs(){
+    //wait here till have cleaned data
+    if (observationdirty!=0){
+        observationmtx.lock();
+    }
+    for (int i=0; i<this->weight.size(); i++) {
+        if (i==lastmaxindex){
+            outputs[i] = weight[i];
+        } else {
+            outputs[i]=0;
+        }
+    }
+    observationmtx.unlock();
+    return outputs.data();
 }
 
 float* NumericBackend::getActions(){

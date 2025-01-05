@@ -108,6 +108,7 @@ void PlaceCellLayer::vector_quantization(position observation, std::vector<std::
             auto change_amount = vq_learning_scale*exp(-d[dim]/this->vq_decay);
             double delta = (observation[dim] - this->positions[i][dim]) * change_amount;
             this->positions[i][dim] += delta;
+            std::cout << delta <<std::endl;
         }
         i++;
     }

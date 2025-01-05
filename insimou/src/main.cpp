@@ -240,6 +240,10 @@ float* getAction(){
 
 }
 
+double* getOutputs(){
+    return getNumericBackend()->getOutputs();
+}
+
 //std::array<float, INPUTDIM>
 double* getWeights(){
     //cannot get the std::array object and get the pointer with data() here (local?)

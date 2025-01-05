@@ -30,6 +30,7 @@ public:
     void setFeedback(double errsig);
     double* getWeights();
     float* getActions();
+    double* getOutputs();
     //this should be private and protected
 
     NumericBackend(std::vector<double> min, std::vector<double> max, std::vector<int> res);
@@ -38,9 +39,10 @@ protected:
 private:
     std::vector<double> observation;
     std::vector<double> activations;//computed or set actions
+    std::vector<double> outputs;//computed or set actions
     std::vector<float> action;//computed action
     std::vector<double> weight;
-    int lastmaxindex = 0;
+    int lastmaxindex = -1;
     int lastaction = 0;
     const float learningrate = 1;
     const double gvwmax = 2; //todoobtain from python settings
