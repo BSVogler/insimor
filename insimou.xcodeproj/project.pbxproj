@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C0803D825EAF82A008A57D0 /* libpython3.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C0803D725EAF82A008A57D0 /* libpython3.9.dylib */; };
 		2C24750A266BA781002EEBAC /* PlaceCellLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2C247508266BA781002EEBAC /* PlaceCellLayer.hpp */; };
 		2C24750B266BA781002EEBAC /* PlaceCellLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247509266BA781002EEBAC /* PlaceCellLayer.cpp */; };
 		2C24750C266BA781002EEBAC /* PlaceCellLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247509266BA781002EEBAC /* PlaceCellLayer.cpp */; };
@@ -15,8 +14,9 @@
 		2C247511266BA795002EEBAC /* numericBackend.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2C24750F266BA795002EEBAC /* numericBackend.hpp */; };
 		2C247512266BA795002EEBAC /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247510266BA795002EEBAC /* numericBackend.cpp */; };
 		2C247513266BA795002EEBAC /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247510266BA795002EEBAC /* numericBackend.cpp */; };
-		2C247515266BA79F002EEBAC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247514266BA79F002EEBAC /* main.cpp */; };
 		2C247516266BA79F002EEBAC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247514266BA79F002EEBAC /* main.cpp */; };
+		A6B6C8212D2AE9E30086AD9D /* settings.h in Sources */ = {isa = PBXBuildFile; fileRef = 2C24750D266BA78C002EEBAC /* settings.h */; };
+		A6B6C8262D2AEC0E0086AD9D /* Python in Frameworks */ = {isa = PBXBuildFile; fileRef = A6B6C8222D2AEBDA0086AD9D /* Python */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,7 +42,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2C0803D725EAF82A008A57D0 /* libpython3.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython3.9.dylib; path = "../../../../usr/local/Cellar/python@3.9/3.9.1_6/Frameworks/Python.framework/Versions/3.9/lib/libpython3.9.dylib"; sourceTree = "<group>"; };
 		2C1F861E25A9DC97001CF6E9 /* setupextension.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = setupextension.py; path = insimou_ext/setupextension.py; sourceTree = SOURCE_ROOT; };
 		2C1F862025A9DC97001CF6E9 /* test.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = test.py; path = insimou_ext/test.py; sourceTree = SOURCE_ROOT; };
 		2C1F862625A9E560001CF6E9 /* insimou.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = insimou.entitlements; path = insimou_ext/insimou.entitlements; sourceTree = SOURCE_ROOT; };
@@ -54,6 +53,8 @@
 		2C247510266BA795002EEBAC /* numericBackend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = numericBackend.cpp; path = src/numericBackend.cpp; sourceTree = "<group>"; };
 		2C247514266BA79F002EEBAC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
 		2C70A67E2598AA7500E72C20 /* insimou_ext */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = insimou_ext; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6B6C8222D2AEBDA0086AD9D /* Python */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = Python; path = ../../../../../Library/Frameworks/Python.framework/Versions/3.13/Python; sourceTree = "<group>"; };
+		A6B6C8242D2AEBEF0086AD9D /* Python3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python3.framework; path = Library/Frameworks/Python3.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C0803D825EAF82A008A57D0 /* libpython3.9.dylib in Frameworks */,
+				A6B6C8262D2AEC0E0086AD9D /* Python in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +113,8 @@
 		2C70A68E2598B41B00E72C20 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2C0803D725EAF82A008A57D0 /* libpython3.9.dylib */,
+				A6B6C8242D2AEBEF0086AD9D /* Python3.framework */,
+				A6B6C8222D2AEBDA0086AD9D /* Python */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -185,7 +187,6 @@
 				};
 			};
 			buildConfigurationList = 2C70A6792598AA7500E72C20 /* Build configuration list for PBXProject "insimou" */;
-			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -193,6 +194,7 @@
 				Base,
 			);
 			mainGroup = 2C70A6752598AA7500E72C20;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C70A67F2598AA7500E72C20 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -218,9 +220,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6B6C8212D2AE9E30086AD9D /* settings.h in Sources */,
 				2C24750B266BA781002EEBAC /* PlaceCellLayer.cpp in Sources */,
 				2C247512266BA795002EEBAC /* numericBackend.cpp in Sources */,
-				2C247515266BA79F002EEBAC /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,13 +313,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/Current/include/python3.9";
+				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/Python.framework/Versions/Current/include/python3.13;
 			};
 			name = Debug;
 		};
@@ -368,31 +370,33 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/Current/include/python3.9";
+				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/Python.framework/Versions/Current/include/python3.13;
 			};
 			name = Release;
 		};
 		2C70A6862598AA7500E72C20 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_ENTITLEMENTS = insimou_ext/insimou.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8DQDR268Z4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.4Frameworks/Python.framework/Versions/Current/include/python3.9";
+				HEADER_SEARCH_PATHS = /Library/Frameworks/Python.framework/Versions/Current/include/python3.13;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
-					"/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9/lib",
+					"/Library/Frameworks/Python.framework/Versions/Current/lib/python3.13/config-3.13-darwin",
+					/Library/Frameworks/Python.framework/Versions/Current/lib,
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.13",
 				);
 				OTHER_CFLAGS = (
 					"-Xclang",
@@ -408,19 +412,21 @@
 		2C70A6872598AA7500E72C20 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_ENTITLEMENTS = insimou_ext/insimou.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8DQDR268Z4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "/usr/local/Cellar/python@3.9/3.9.4Frameworks/Python.framework/Versions/Current/include/python3.9";
+				HEADER_SEARCH_PATHS = /Library/Frameworks/Python.framework/Versions/Current/include/python3.13;
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9/lib/python3.9/config-3.9-darwin",
-					"/usr/local/Cellar/python@3.9/3.9.4/Frameworks/Python.framework/Versions/3.9/lib",
+					"/Library/Frameworks/Python.framework/Versions/Current/lib/python3.13/config-3.13-darwin",
+					/Library/Frameworks/Python.framework/Versions/Current/lib,
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.13",
 				);
 				OTHER_CFLAGS = (
 					"-Xclang",
