@@ -47,9 +47,12 @@ You can run the C++ code (main) when compiling and running the extension project
 | Python/NumericPyActor | 0.89 | - |
 
 ### Research Progress
-✅ Simplified numeric algorithm in Python
-✅ SNN algorithm in PyNest
-⚒️ Simplified numeric algorithm in INSIMOR
-🟥 SNN algorithm in INSIMOR
-⚒️ Run training on real robot agent
-🟥 Implement INSIMOR back-end on FPGA
+
+- ✅ Simplified numeric algorithm in Python
+- ✅ SNN algorithm in PyNest
+- ⚒️ Simplified numeric algorithm in INSIMOR
+- 🟥 SNN algorithm in INSIMOR
+- ⚒️ Run training on real robot agent
+- 🟥 Implement INSIMOR back-end on FPGA
+
+Note: The emojis indicate status where ✅ represents completed tasks, ⚒️ represents work in progress, and 🟥 represents tasks not yet started.
