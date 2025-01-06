@@ -26,7 +26,7 @@ This projects contains a c-python/ctypes version and an extension (use with Pyth
 
 The Python extension is not working yet with python as this needs manual memory managment like reference counting.
 
-For compiling the extension you need to link the libpython3.13.dylib (which links to the python executable via the mach-o file format).
+For compiling the extension you need to link the libpython3.13.dylib (which links to the python executable via the mach-o file format). More details on linking [here](https://blog.benediktsvogler.com/blog/linking-python-with-xcode-16).
 First compile the C++ code of the engine to obtain the shared lib `libinsimou.dylib`. The ctypes work via C so  `extern "C"` is used.
 
 Have an alias to the `libinsimou.dylib` in the same dir.
