@@ -8,9 +8,9 @@ This integrated system architecture is designated as INSIMOR (Input, simulation,
 
 
 The system is then called:
-Input, simulation, output, reward or utility function, short insimor.
+*In*put, *sim*ulation, *o*utput, *r*eward or utility function, short INSIMOR.
 
-``html
+
 <map name="GraffleExport">
 	<area shape=rect coords="691,335,857,430" href="https://github.com/BSVogler/insimor">
 	<area shape=rect coords="504,335,670,430" href="https://github.com/BSVogler/insimor">
@@ -22,7 +22,6 @@ Input, simulation, output, reward or utility function, short insimor.
 	<area shape=rect coords="304,1,496,96" href="https://github.com/BSVogler/SNN-RL">
 </map>
 <img border=0 src="docs/frameworkReinforcementLearning.jpg" alt="Framework Reinforcement Learning Diagram" usemap="#GraffleExport">
-``
 
 ## Project implementation details
 There are two ways to integrate python with C/C++.
