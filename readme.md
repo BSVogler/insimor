@@ -4,11 +4,8 @@ SNNs integrated with reinforcement learning operate through interconnected feedb
 In the initial implementation, I utilized NEST, an established SNN framework, as the neural network backend. However, this approach revealed significant performance limitations, particularly for closed-loop simulations. The system's requirement for frequent updates—occurring every few milliseconds at the network edge—created substantial processing delays due to continuous data transfers to the backend. These performance constraints made the system impractical for embedded processors in robotics applications.
 To address these performance challenges, we are developing a custom implementation optimized specifically for this framework. The primary optimization strategy involves integrating all system components directly into the simulator backend. Additionally, we are implementing comprehensive multithreading capabilities. In this architecture, the simulation operates as a co-process with configurable parameters, while high-frequency sensor data provides continuous input. Since the simulation typically represents the primary performance bottleneck, it runs continuously, processing the most recent input data.
 The impact of spike-to-analog (S2A) conversion is expected to be minimal. If necessary, it could operate as a separate co-process following simulation completion. Further research will evaluate whether the agent's performance benefits more from accessing intermediate results or from utilizing complete but slightly delayed outputs. Similar considerations apply to the feedback function implementation.
-This integrated system architecture is designated as INSIMOR (Input, simulation, output, reward/utility function), reflecting its core components and operational flow.
 
-
-The system is then called:
-*In*put, *sim*ulation, *o*utput, *r*eward or utility function, short INSIMOR.
+The system is then designated as INSIMOR (*In*put, *sim*ulation, *o*utput, *r*eward or utility function).
 
 
 <map name="GraffleExport">
@@ -25,12 +22,12 @@ The system is then called:
 
 ## Project implementation details
 There are two ways to integrate python with C/C++.
-This projects contains a c-python/ctypes version and an extension (use with python import statement). Each version is split into its distinct directory.
+This projects contains a c-python/ctypes version and an extension (use with Python import statement). Each version is split into its distinct directory.
 
-The python extension is not working yet with python as this needs manual memory managment like reference counting.
+The Python extension is not working yet with python as this needs manual memory managment like reference counting.
 
 For compiling the extension you need to link the libpython3.13.dylib (which links to the python executable via the mach-o file format).
-First compile the C++ code of the engine to obtain the shared lib `libinsimou.dylib`. The ctypes work via c so  `extern "C"` is used.
+First compile the C++ code of the engine to obtain the shared lib `libinsimou.dylib`. The ctypes work via C so  `extern "C"` is used.
 
 Have an alias to the `libinsimou.dylib` in the same dir.
 
@@ -41,8 +38,6 @@ You can run the C++ code (main) when compiling and running the extension project
 
 
 
-TODO:
-embed back-end in cart-pole
 
 ### Performance Numbers
 | Implementation | Cycles/ms | ? |
@@ -50,3 +45,11 @@ embed back-end in cart-pole
 | INSIMOR core loop C++ implementation | 51953.5 | 48.5278 |
 | INSIMOR Python loop | 0.613 | - |
 | Python/NumericPyActor | 0.89 | - |
+
+### Research Progress
+✅ Simplified numeric algorithm in Python
+✅ SNN algorithm in PyNest
+⚒️ Simplified numeric algorithm in INSIMOR
+🟥 SNN algorithm in INSIMOR
+⚒️ Run training on real robot agent
+🟥 Implement INSIMOR back-end on FPGA
