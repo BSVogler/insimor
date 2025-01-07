@@ -16,7 +16,9 @@
 		2C247513266BA795002EEBAC /* numericBackend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247510266BA795002EEBAC /* numericBackend.cpp */; };
 		2C247516266BA79F002EEBAC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247514266BA79F002EEBAC /* main.cpp */; };
 		A6B6C8212D2AE9E30086AD9D /* settings.h in Sources */ = {isa = PBXBuildFile; fileRef = 2C24750D266BA78C002EEBAC /* settings.h */; };
-		A6B6C8262D2AEC0E0086AD9D /* Python in Frameworks */ = {isa = PBXBuildFile; fileRef = A6B6C8222D2AEBDA0086AD9D /* Python */; };
+		A6B6C8282D2C14440086AD9D /* libpython3.13.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6B6C8272D2C14440086AD9D /* libpython3.13.dylib */; };
+		A6B6C8292D2C14440086AD9D /* libpython3.13.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6B6C8272D2C14440086AD9D /* libpython3.13.dylib */; };
+		A6B6C82A2D2D34820086AD9D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C247514266BA79F002EEBAC /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,8 +55,8 @@
 		2C247510266BA795002EEBAC /* numericBackend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = numericBackend.cpp; path = src/numericBackend.cpp; sourceTree = "<group>"; };
 		2C247514266BA79F002EEBAC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
 		2C70A67E2598AA7500E72C20 /* insimou_ext */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = insimou_ext; sourceTree = BUILT_PRODUCTS_DIR; };
-		A6B6C8222D2AEBDA0086AD9D /* Python */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = Python; path = ../../../../../Library/Frameworks/Python.framework/Versions/3.13/Python; sourceTree = "<group>"; };
 		A6B6C8242D2AEBEF0086AD9D /* Python3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Python3.framework; path = Library/Frameworks/Python3.framework; sourceTree = DEVELOPER_DIR; };
+		A6B6C8272D2C14440086AD9D /* libpython3.13.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpython3.13.dylib; path = "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/config-3.13-darwin/libpython3.13.dylib"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6B6C8292D2C14440086AD9D /* libpython3.13.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6B6C8262D2AEC0E0086AD9D /* Python in Frameworks */,
+				A6B6C8282D2C14440086AD9D /* libpython3.13.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				A6B6C8242D2AEBEF0086AD9D /* Python3.framework */,
-				A6B6C8222D2AEBDA0086AD9D /* Python */,
+				A6B6C8272D2C14440086AD9D /* libpython3.13.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 			files = (
 				A6B6C8212D2AE9E30086AD9D /* settings.h in Sources */,
 				2C24750B266BA781002EEBAC /* PlaceCellLayer.cpp in Sources */,
+				A6B6C82A2D2D34820086AD9D /* main.cpp in Sources */,
 				2C247512266BA795002EEBAC /* numericBackend.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -242,6 +246,11 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.13/lib/python3.13/config-3.13-darwin",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -259,6 +268,11 @@
 				GCC_ENABLE_CPP_EXCEPTIONS = YES;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.13/lib/python3.13/config-3.13-darwin",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -318,6 +332,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/Frameworks/Python.framework/Versions/3.13/include/python3.13;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -377,6 +392,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Library/Frameworks/Python.framework/Versions/3.13/include/python3.13;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -398,13 +414,14 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = /Library/Frameworks/Python.framework/Versions/Current/include/python3.13;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Library/Frameworks/Python.framework/Versions/Current/lib/python3.13/config-3.13-darwin",
 					/Library/Frameworks/Python.framework/Versions/Current/lib,
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.13",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.13/lib/python3.13/config-3.13-darwin",
 				);
 				OTHER_CFLAGS = (
 					"-Xclang",
@@ -429,13 +446,14 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = /Library/Frameworks/Python.framework/Versions/Current/include/python3.13;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				LD_RUNPATH_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Library/Frameworks/Python.framework/Versions/Current/lib/python3.13/config-3.13-darwin",
 					/Library/Frameworks/Python.framework/Versions/Current/lib,
 					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.13",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks/Python.framework/Versions/3.13/lib/python3.13/config-3.13-darwin",
 				);
 				OTHER_CFLAGS = (
 					"-Xclang",
